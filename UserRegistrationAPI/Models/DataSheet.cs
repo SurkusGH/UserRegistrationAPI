@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UserRegistrationAPI.Models
 {
-    public class InfoSheet
+    public class DataSheet
     {
         [Required]
         public Guid Id { get; set; }

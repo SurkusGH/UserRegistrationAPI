@@ -9,6 +9,10 @@ namespace UserRegistrationAPI
         public DatabaseContext(DbContextOptions options) : base(options)
         { }
 
+        public DbSet<User> Users { get; set; }
+        public DbSet<DataSheet> DataSheets { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<User>().HasData(
@@ -18,7 +22,7 @@ namespace UserRegistrationAPI
                     Username = "Vardenis",
                     Password = "P@ssword1",
                     Role = "User",
-                    InfoSheetId = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482")
+                    DataSheetId = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482")
                 },
                 new User
                 {
@@ -26,10 +30,10 @@ namespace UserRegistrationAPI
                     Username = "Antanas",
                     Password = "P@ssword2",
                     Role = "User",
-                    InfoSheetId = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4")
+                    DataSheetId = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4")
                 });
-            builder.Entity<InfoSheet>().HasData(
-                new InfoSheet
+            builder.Entity<DataSheet>().HasData(
+                new DataSheet
                 {
                     Id = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482"),
                     FirstName = "Vardenis",
@@ -38,7 +42,7 @@ namespace UserRegistrationAPI
                     Email = "vardenis@vardenis.lt",
                     AddressId = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482"),
                 },
-                new InfoSheet
+                new DataSheet
                 {
                     Id = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4"),
                     FirstName = "Antanas",
@@ -63,12 +67,7 @@ namespace UserRegistrationAPI
                     Street = "Nemuno g.",
                     House = 20,
                     Apartanemt = 20
-                });
-                
+                });    
         }
-
-        public DbSet<User> Users { get; set; }
-        public DbSet<InfoSheet> InfoSheets { get; set; }
-        public DbSet<Address> Addresses { get; set; }
     }
 }

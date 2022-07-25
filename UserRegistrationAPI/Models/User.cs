@@ -19,9 +19,9 @@ namespace UserRegistrationAPI.Models
         public string Role { get; set; }
 
         [Required]
-        [ForeignKey(nameof(InfoSheet))]
-        public Guid InfoSheetId { get; set; }
-        public InfoSheet InfoSheet { get; set; }
+        [ForeignKey(nameof(DataSheet))]
+        public Guid DataSheetId { get; set; }
+        public DataSheet DataSheet { get; set; }
 
     }
 }

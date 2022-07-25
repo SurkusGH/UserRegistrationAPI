@@ -9,7 +9,7 @@ namespace UserRegistrationAPI.Repositories.IRepository
         public interface IUnitOfWork : IDisposable
         {
             IGenericRepository<User> Users { get; }
-            IGenericRepository<InfoSheet> InfoSheets { get; }
+            IGenericRepository<DataSheet> InfoSheets { get; }
             IGenericRepository<Address> Addresses { get; }
             Task Save();
         }
