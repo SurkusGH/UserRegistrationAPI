@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UserRegistrationAPI.Models
 {
@@ -15,15 +16,17 @@ namespace UserRegistrationAPI.Models
         public string LastName { get; set; }
 
         [Required]
-        public ulong PersonalNumber { get; set; }
+        public double PersonalNumber { get; set; }
 
         [Required]
         public string Email { get; set; }
 
-        [Required]
-        public byte[] Photo { get; set; }
+        //[Required]
+        //public byte[] Photo { get; set; }
 
         [Required]
-        public virtual Address Address { get; set; }
+        [ForeignKey(nameof(Address))]
+        public Guid AddressId { get; set; }
+        public Address Address { get; set; }
     }
 }

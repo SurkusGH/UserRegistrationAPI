@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UserRegistrationAPI.Models
 {
@@ -18,6 +19,9 @@ namespace UserRegistrationAPI.Models
         public string Role { get; set; }
 
         [Required]
+        [ForeignKey(nameof(InfoSheet))]
+        public Guid InfoSheetId { get; set; }
         public InfoSheet InfoSheet { get; set; }
+
     }
 }

@@ -14,7 +14,7 @@ namespace UserRegistrationAPI.Models
         public string Street { get; set; }
 
         [Required]
-        public string House { get; set; }
+        public int House { get; set; }
 
         public int Apartanemt { get; set; }
     }

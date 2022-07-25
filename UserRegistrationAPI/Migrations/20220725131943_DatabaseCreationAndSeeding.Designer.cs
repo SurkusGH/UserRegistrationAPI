@@ -10,8 +10,8 @@ using UserRegistrationAPI;
 namespace UserRegistrationAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220725122007_DatabaseCreation")]
-    partial class DatabaseCreation
+    [Migration("20220725131943_DatabaseCreationAndSeeding")]
+    partial class DatabaseCreationAndSeeding
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,9 +34,8 @@ namespace UserRegistrationAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("House")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("House")
+                        .HasColumnType("int");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -45,6 +44,24 @@ namespace UserRegistrationAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Addresses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482"),
+                            Apartanemt = 10,
+                            City = "Vilnius",
+                            House = 10,
+                            Street = "Neries g."
+                        },
+                        new
+                        {
+                            Id = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4"),
+                            Apartanemt = 20,
+                            City = "Kaunas",
+                            House = 20,
+                            Street = "Nemuno g."
+                        });
                 });
 
             modelBuilder.Entity("UserRegistrationAPI.Models.InfoSheet", b =>
@@ -53,7 +70,7 @@ namespace UserRegistrationAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AddressId")
+                    b.Property<Guid>("AddressId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -68,18 +85,34 @@ namespace UserRegistrationAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("PersonalNumber")
-                        .HasColumnType("decimal(20,0)");
-
-                    b.Property<byte[]>("Photo")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                    b.Property<double>("PersonalNumber")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
 
                     b.ToTable("InfoSheets");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482"),
+                            AddressId = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482"),
+                            Email = "vardenis@vardenis.lt",
+                            FirstName = "Vardenis",
+                            LastName = "Pavarednis",
+                            PersonalNumber = 38989521245.0
+                        },
+                        new
+                        {
+                            Id = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4"),
+                            AddressId = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4"),
+                            Email = "antanas@antanas.lt",
+                            FirstName = "Antanas",
+                            LastName = "Antanaitis",
+                            PersonalNumber = 38989521245.0
+                        });
                 });
 
             modelBuilder.Entity("UserRegistrationAPI.Models.User", b =>
@@ -88,7 +121,7 @@ namespace UserRegistrationAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("InfoSheetId")
+                    b.Property<Guid>("InfoSheetId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Password")
@@ -108,13 +141,33 @@ namespace UserRegistrationAPI.Migrations
                     b.HasIndex("InfoSheetId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("991ff595-0174-4011-87b3-bd968202b075"),
+                            InfoSheetId = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482"),
+                            Password = "P@ssword1",
+                            Role = "User",
+                            Username = "Vardenis"
+                        },
+                        new
+                        {
+                            Id = new Guid("256e4f68-a17b-4a39-ac29-653d977c8883"),
+                            InfoSheetId = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4"),
+                            Password = "P@ssword2",
+                            Role = "User",
+                            Username = "Antanas"
+                        });
                 });
 
             modelBuilder.Entity("UserRegistrationAPI.Models.InfoSheet", b =>
                 {
                     b.HasOne("UserRegistrationAPI.Models.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressId");
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Address");
                 });
@@ -123,7 +176,9 @@ namespace UserRegistrationAPI.Migrations
                 {
                     b.HasOne("UserRegistrationAPI.Models.InfoSheet", "InfoSheet")
                         .WithMany()
-                        .HasForeignKey("InfoSheetId");
+                        .HasForeignKey("InfoSheetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("InfoSheet");
                 });
