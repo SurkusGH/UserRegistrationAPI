@@ -30,6 +30,15 @@ namespace UserRegistrationAPI
             services.AddDbContext<DatabaseContext>(options =>
                                                    options.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
 
+            #region (!) Cross-Origin-Resource-Sharing setup
+            services.AddCors(options => {  // <- Adding Cross-Origin-Resource-Sharing
+                options.AddPolicy("CorsPolicy_AllowAll", builder =>
+                    builder.AllowAnyOrigin() // <- defines who can access
+                           .AllowAnyMethod() // <- defines what methods are allowed tb executed
+                           .AllowAnyHeader());
+            });
+            #endregion
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserRegistrationAPI", Version = "v1" });
@@ -47,6 +56,8 @@ namespace UserRegistrationAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UserRegistrationAPI v1"));
             }
+
+            app.UseCors("CorsPolicy_AllowAll");
 
             app.UseHttpsRedirection();
 
