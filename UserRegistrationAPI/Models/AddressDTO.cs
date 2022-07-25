@@ -6,8 +6,28 @@ namespace UserRegistrationAPI.Models
     public class AddressDTO : CreateAddressDTO
     {
         public Guid Id { get; set; }
-
     }
+
+    public class UpdateAddressDTO_City
+    {
+        [Required]
+        public string City { get; set; }
+    }
+    public class UpdateAddressDTO_Street
+    {
+        [Required]
+        public string Street { get; set; }
+    }
+    public class UpdateAddressDTO_House
+    {
+        [Required]
+        public int House { get; set; }
+    }
+    public class UpdateAddressDTO_Apartament
+    {
+        public int Apartament { get; set; }
+    }
+
     public class CreateAddressDTO
     {
 
@@ -20,6 +40,6 @@ namespace UserRegistrationAPI.Models
         [Required]
         public int House { get; set; }
 
-        public int Apartanemt { get; set; }
+        public int Apartament { get; set; }
     }
 }

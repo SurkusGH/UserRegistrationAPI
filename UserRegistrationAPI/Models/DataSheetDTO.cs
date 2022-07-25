@@ -12,6 +12,32 @@ namespace UserRegistrationAPI.Models
 
         public IList<AddressDTO> Addresses { get; set; }
     }
+
+    public class UpdateDataSheetDTO_FirstName
+    {
+        [Required]
+        [StringLength(maximumLength: 25, ErrorMessage = "(!) FirstName Is Too Long.")]
+        public string FirstName { get; set; }
+    }
+    public class UpdateDataSheetDTO_LastName
+    {
+        [Required]
+        [StringLength(maximumLength: 25, ErrorMessage = "(!) LastName Is Too Long.")]
+        public string LastName { get; set; }
+    }
+    public class UpdateDataSheetDTO_PersonalNumber
+    {
+        [Required]
+        [StringLength(11, ErrorMessage = "Your PersonalNumber Has To Be Exactly 11 Digits Long", MinimumLength = 11)]
+        public double PersonalNumber { get; set; }
+    }
+    public class UpdateDataSheetDTO_Email
+    {
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+    }
+
     public class CreateDataSheetDTO
     {
         [Required] 

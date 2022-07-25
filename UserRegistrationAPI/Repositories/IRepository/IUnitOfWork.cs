@@ -4,14 +4,13 @@ using UserRegistrationAPI.Models;
 
 namespace UserRegistrationAPI.Repositories.IRepository
 {
-    public interface IUnitOfWork
+
+    public interface IUnitOfWork : IDisposable
     {
-        public interface IUnitOfWork : IDisposable
-        {
-            IGenericRepository<User> Users { get; }
-            IGenericRepository<DataSheet> InfoSheets { get; }
-            IGenericRepository<Address> Addresses { get; }
-            Task Save();
-        }
+        IGenericRepository<User> Users { get; }
+        IGenericRepository<DataSheet> DataSheets { get; }
+        IGenericRepository<Address> Addresses { get; }
+        Task Save();
     }
+
 }

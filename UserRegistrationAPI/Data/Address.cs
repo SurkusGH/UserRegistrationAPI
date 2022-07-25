@@ -16,6 +16,6 @@ namespace UserRegistrationAPI.Models
         [Required]
         public int House { get; set; }
 
-        public int Apartanemt { get; set; }
+        public int Apartament { get; set; }
     }
 }

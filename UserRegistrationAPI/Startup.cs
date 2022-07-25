@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UserRegistrationAPI.Configurations;
 using UserRegistrationAPI.Repositories.IRepository;
 using UserRegistrationAPI.Repositories.Repository;
 
@@ -33,6 +34,8 @@ namespace UserRegistrationAPI
                                                    options.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            services.AddAutoMapper(typeof(MapperInitialiser));
 
             #region (!) Cross-Origin-Resource-Sharing setup
             services.AddCors(options => {  // <- Adding Cross-Origin-Resource-Sharing

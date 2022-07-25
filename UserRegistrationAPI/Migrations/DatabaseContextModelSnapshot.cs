@@ -25,12 +25,15 @@ namespace UserRegistrationAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Apartanemt")
+                    b.Property<int>("Apartament")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("DataSheetId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("House")
                         .HasColumnType("int");
@@ -41,13 +44,15 @@ namespace UserRegistrationAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DataSheetId");
+
                     b.ToTable("Addresses");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482"),
-                            Apartanemt = 10,
+                            Apartament = 10,
                             City = "Vilnius",
                             House = 10,
                             Street = "Neries g."
@@ -55,14 +60,14 @@ namespace UserRegistrationAPI.Migrations
                         new
                         {
                             Id = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4"),
-                            Apartanemt = 20,
+                            Apartament = 20,
                             City = "Kaunas",
                             House = 20,
                             Street = "Nemuno g."
                         });
                 });
 
-            modelBuilder.Entity("UserRegistrationAPI.Models.InfoSheet", b =>
+            modelBuilder.Entity("UserRegistrationAPI.Models.DataSheet", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,25 +77,27 @@ namespace UserRegistrationAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("PersonalNumber")
                         .HasColumnType("float");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("InfoSheets");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("DataSheets");
 
                     b.HasData(
                         new
@@ -119,47 +126,51 @@ namespace UserRegistrationAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("InfoSheetId")
+                    b.Property<Guid>("DataSheetId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InfoSheetId");
+                    b.HasIndex("DataSheetId");
 
                     b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("991ff595-0174-4011-87b3-bd968202b075"),
-                            InfoSheetId = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482"),
+                            Id = new Guid("fa556208-e140-403e-9c9a-f4e644e1d319"),
+                            DataSheetId = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482"),
                             Password = "P@ssword1",
                             Role = "User",
                             Username = "Vardenis"
                         },
                         new
                         {
-                            Id = new Guid("256e4f68-a17b-4a39-ac29-653d977c8883"),
-                            InfoSheetId = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4"),
+                            Id = new Guid("a53df72d-6769-4b1f-ae18-824a3fdf7f99"),
+                            DataSheetId = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4"),
                             Password = "P@ssword2",
                             Role = "User",
                             Username = "Antanas"
                         });
                 });
 
-            modelBuilder.Entity("UserRegistrationAPI.Models.InfoSheet", b =>
+            modelBuilder.Entity("UserRegistrationAPI.Models.Address", b =>
+                {
+                    b.HasOne("UserRegistrationAPI.Models.DataSheet", null)
+                        .WithMany("Addresses")
+                        .HasForeignKey("DataSheetId");
+                });
+
+            modelBuilder.Entity("UserRegistrationAPI.Models.DataSheet", b =>
                 {
                     b.HasOne("UserRegistrationAPI.Models.Address", "Address")
                         .WithMany()
@@ -167,18 +178,32 @@ namespace UserRegistrationAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("UserRegistrationAPI.Models.User", null)
+                        .WithMany("DataSheets")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Address");
                 });
 
             modelBuilder.Entity("UserRegistrationAPI.Models.User", b =>
                 {
-                    b.HasOne("UserRegistrationAPI.Models.InfoSheet", "InfoSheet")
+                    b.HasOne("UserRegistrationAPI.Models.DataSheet", "DataSheet")
                         .WithMany()
-                        .HasForeignKey("InfoSheetId")
+                        .HasForeignKey("DataSheetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("InfoSheet");
+                    b.Navigation("DataSheet");
+                });
+
+            modelBuilder.Entity("UserRegistrationAPI.Models.DataSheet", b =>
+                {
+                    b.Navigation("Addresses");
+                });
+
+            modelBuilder.Entity("UserRegistrationAPI.Models.User", b =>
+                {
+                    b.Navigation("DataSheets");
                 });
 #pragma warning restore 612, 618
         }

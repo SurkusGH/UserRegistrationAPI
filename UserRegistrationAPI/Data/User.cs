@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UserRegistrationAPI.Models
@@ -16,6 +17,8 @@ namespace UserRegistrationAPI.Models
         [ForeignKey(nameof(DataSheet))]
         public Guid DataSheetId { get; set; }
         public DataSheet DataSheet { get; set; }
+
+        public virtual IList<DataSheet> DataSheets { get; set; }
 
     }
 }

@@ -58,7 +58,7 @@ namespace UserRegistrationAPI
                     City = "Vilnius",
                     Street = "Neries g.",
                     House = 10,
-                    Apartanemt = 10
+                    Apartament = 10
                 },
                 new Address
                 {
@@ -66,7 +66,7 @@ namespace UserRegistrationAPI
                     City = "Kaunas",
                     Street = "Nemuno g.",
                     House = 20,
-                    Apartanemt = 20
+                    Apartament = 20
                 });    
         }
     }

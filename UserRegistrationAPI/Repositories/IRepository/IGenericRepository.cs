@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -6,17 +7,23 @@ using System.Threading.Tasks;
 
 namespace UserRegistrationAPI.Repositories.IRepository
 {
-    public interface IGenericRepository<T> where T : class // <- syntax that enables T to be passed as a class
+    public interface IGenericRepository<T> where T : class
     {
         Task<IList<T>> GetAll(
-            Expression<Func<T, bool>> expression = null, // <- optional parameter
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, // <- optional parameter
-            List<string> included = null
-        );
-        Task<T> Get(Expression<Func<T, bool>> expression, List<string> includes = null);
+            Expression<Func<T, bool>> expression = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null
+         );
+        //Task<IPagedList<T>> GetPagedList(
+        //    RequestParams requestParams,
+        //    Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null
+        //    );
+
+        Task<T> Get(Expression<Func<T, bool>> expression,
+                               Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null);
         Task Insert(T entity);
         Task InsertRange(IEnumerable<T> entities);
-        Task Delete(int id);
+        Task Delete(Guid id);
         void DeleteRange(IEnumerable<T> entities);
         void Update(T entity);
     }
