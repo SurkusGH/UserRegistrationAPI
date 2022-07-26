@@ -6,13 +6,21 @@ namespace UserRegistrationAPI.Models
 {
     public class UserDTO : CreateUserDTO
     {
-        public Guid Id { get; set; }
-
+        public string Id { get; set; }
         public DataSheet DataSheet { get; set; }
 
-        public IList<DataSheetDTO> DataSheets { get; set; }
     }
 
+    public class LoginUserDTO
+    {
+        [Required]
+        [StringLength(maximumLength: 25, ErrorMessage = "(!) Username Is Too Long.")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(15, ErrorMessage = "Your Password is limited to {2} to {1} characters", MinimumLength = 6)]
+        public string Password { get; set; }
+    }
     public class UpdateUserDTO_Username
     {
         [Required]
@@ -28,12 +36,12 @@ namespace UserRegistrationAPI.Models
         public string Password { get; set; }
     }
 
-
     public class CreateUserDTO
     {
         [Required]
         [StringLength(maximumLength: 25, ErrorMessage = "(!) Username Is Too Long.")]
-        public string Username { get; set; }
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -41,6 +49,13 @@ namespace UserRegistrationAPI.Models
         public string Password { get; set; }
 
         [Required]
-        public string Role { get; set; }
+        //private string Roles { get; set; } = "User";
+
+        public ICollection<string> Roles { get; set; }// = new List<string> { "User" };
+
+        //[Required]
+        //public CreateDataSheetDTO DataSheet { get; set; }
+
+
     }
 }

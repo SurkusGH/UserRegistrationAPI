@@ -1,24 +1,17 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UserRegistrationAPI.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public Guid Id { get; set; }
-
-        public string Username { get; set; }
-       
-        public string Password { get; set; }
-      
-        public string Role { get; set; }
 
         [ForeignKey(nameof(DataSheet))]
-        public Guid DataSheetId { get; set; }
+        public string DataSheetId { get; set; }
         public DataSheet DataSheet { get; set; }
-
-        public virtual IList<DataSheet> DataSheets { get; set; }
 
     }
 }

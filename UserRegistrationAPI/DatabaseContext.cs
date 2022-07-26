@@ -1,60 +1,61 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
+using UserRegistrationAPI.Configurations.Entities;
 using UserRegistrationAPI.Models;
 
 namespace UserRegistrationAPI
 {
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : IdentityDbContext<User>
     {
         public DatabaseContext(DbContextOptions options) : base(options)
         { }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<DataSheet> DataSheets { get; set; }
         public DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration(new RoleConfiguration());
+
+            base.OnModelCreating(builder);
+
             builder.Entity<User>().HasData(
                 new User
                 {
-                    Id = Guid.NewGuid(),
-                    Username = "Vardenis",
-                    Password = "P@ssword1",
-                    Role = "User",
-                    DataSheetId = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482")
+                    Id = Guid.NewGuid().ToString(),
+                    //Password = "P@ssword1",
+                    DataSheetId = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482").ToString()
                 },
                 new User
                 {
-                    Id = Guid.NewGuid(),
-                    Username = "Antanas",
-                    Password = "P@ssword2",
-                    Role = "User",
-                    DataSheetId = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4")
+                    Id = Guid.NewGuid().ToString(),
+                    //Password = "P@ssword2",
+                    DataSheetId = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4").ToString()
                 });
             builder.Entity<DataSheet>().HasData(
                 new DataSheet
                 {
-                    Id = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482"),
+                    Id = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482").ToString(),
                     FirstName = "Vardenis",
                     LastName = "Pavarednis",
-                    PersonalNumber = 38989521245,
+                    IdentificationNumber = "38989521245",
                     Email = "vardenis@vardenis.lt",
-                    AddressId = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482"),
+                    AddressId = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482").ToString()
                 },
                 new DataSheet
                 {
-                    Id = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4"),
+                    Id = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4").ToString(),
                     FirstName = "Antanas",
                     LastName = "Antanaitis",
-                    PersonalNumber = 38989521245,
+                    IdentificationNumber = "38989521245",
                     Email = "antanas@antanas.lt",
-                    AddressId = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4"),
+                    AddressId = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4").ToString()
                 });
             builder.Entity<Address>().HasData(
                 new Address
                 {
-                    Id = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482"),
+                    Id = new Guid("9245fe4a-d402-451c-b9ed-9c1a04247482").ToString(),
                     City = "Vilnius",
                     Street = "Neries g.",
                     House = 10,
@@ -62,12 +63,12 @@ namespace UserRegistrationAPI
                 },
                 new Address
                 {
-                Id = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4"),
+                    Id = new Guid("083a8133-231d-4028-a878-b365ba2f9eb4").ToString(),
                     City = "Kaunas",
                     Street = "Nemuno g.",
                     House = 20,
                     Apartament = 20
-                });    
+                });
         }
     }
 }

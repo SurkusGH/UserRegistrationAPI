@@ -27,7 +27,7 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [HttpPut("CityMod")]
-        public async Task<IActionResult> UpdateAddressDTO_City(Guid id, [FromBody] UpdateAddressDTO_City userDTO)
+        public async Task<IActionResult> UpdateAddressDTO_City(string id, [FromBody] UpdateAddressDTO_City userDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -50,7 +50,7 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [HttpPut("StreetMod")]
-        public async Task<IActionResult> UpdateAddressDTO_Street(Guid id, [FromBody] UpdateAddressDTO_Street userDTO)
+        public async Task<IActionResult> UpdateAddressDTO_Street(string id, [FromBody] UpdateAddressDTO_Street userDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [HttpPut("HouseMod")]
-        public async Task<IActionResult> UpdateAddressDTO_House(Guid id, [FromBody] UpdateAddressDTO_City userDTO)
+        public async Task<IActionResult> UpdateAddressDTO_House(string id, [FromBody] UpdateAddressDTO_City userDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [HttpPut("ApartamentMod")]
-        public async Task<IActionResult> UpdateAddressDTO_Apartament(Guid id, [FromBody] UpdateAddressDTO_Apartament userDTO)
+        public async Task<IActionResult> UpdateAddressDTO_Apartament(string id, [FromBody] UpdateAddressDTO_Apartament userDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -121,4 +121,3 @@ namespace UserRegistrationAPI.Controllers
     }
 }
 
-//CreateMap<Address, UpdateAddressDTO_Street>().ReverseMap();

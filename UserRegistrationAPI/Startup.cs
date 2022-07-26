@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 using UserRegistrationAPI.Configurations;
 using UserRegistrationAPI.Repositories.IRepository;
 using UserRegistrationAPI.Repositories.Repository;
+using UserRegistrationAPI.Services;
 
 namespace UserRegistrationAPI
 {
@@ -31,9 +33,13 @@ namespace UserRegistrationAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DatabaseContext>(options =>
-                                                   options.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
+                                                   options.UseSqlServer(Configuration.GetConnectionString("sqlConnection"))
+                                                   );
+            services.AddAuthentication();
+            //services.ConfigureIdentity();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAuthManager, AuthManager>();
 
             services.AddAutoMapper(typeof(MapperInitialiser));
 
@@ -45,6 +51,10 @@ namespace UserRegistrationAPI
                            .AllowAnyHeader());
             });
             #endregion
+
+            services.ConfigureIdentity();
+            services.ConfigureJWT(Configuration);
+
 
             services.AddSwaggerGen(c =>
             {

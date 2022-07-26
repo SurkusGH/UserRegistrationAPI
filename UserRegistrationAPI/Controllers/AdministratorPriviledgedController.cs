@@ -34,6 +34,7 @@ namespace UserRegistrationAPI.Controllers
             try
             {
                 var users = await _unitOfWork.Users.GetAll(include: q => q.Include(x => x.DataSheet));
+
                 var result = _mapper.Map<List<UserDTO>>(users);
                 return Ok(result);
             }
@@ -44,22 +45,29 @@ namespace UserRegistrationAPI.Controllers
             }
         }
 
-        [HttpGet("GetUserById")]
+        [HttpDelete("DeleteUser")]
         #region Status.Codes
         [ProducesResponseType(StatusCodes.Status200OK)]                     // <- these attributes gives more info for dev (in swagger)
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         #endregion
-        public async Task<IActionResult> GetUserById(Guid id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             try
             {
-                var user = await _unitOfWork.Users.Get(q => q.Id == id, include: q => q.Include(x => x.DataSheet));
-                var result = _mapper.Map<UserDTO>(user);
-                return Ok(result);
+                var user = await _unitOfWork.Users.Get(h => h.Id == id);
+                if (user == null)
+                {
+                    _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteUser)}");
+                    return BadRequest("Submited data is invalid");
+                }
+                await _unitOfWork.Users.Delete(id.ToString());
+                await _unitOfWork.Save();
+
+                return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"(!) Something Went Wrong in the {nameof(GetUserById)}");
+                _logger.LogError(ex, $"(!) Something Went Wrong in the {nameof(DeleteUser)}");
                 return StatusCode(500, "(!) Internal Server Error. Please Try Again Later.");
             }
         }

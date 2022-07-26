@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using UserRegistrationAPI.Models;
 using UserRegistrationAPI.Repositories.IRepository;
 
 namespace UserRegistrationAPI.Repositories.Repository
@@ -24,7 +25,7 @@ namespace UserRegistrationAPI.Repositories.Repository
             _db = _context.Set<T>(); // <- basically calling Countries or Hotels sets, that are set in DatabaseContext.cs
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(string id)
         {
             var entity = await _db.FindAsync(id);
             _db.Remove(entity);
@@ -109,3 +110,7 @@ namespace UserRegistrationAPI.Repositories.Repository
     }
 }
 
+//db.Courses.Include(x => x.StudentList)
+//                         .Include(x => x.LectureList)
+//                                                     .Select(x => x.Name).ToList()
+//                                                     .ForEach(x => Console.WriteLine($"{index++} - {x}"));

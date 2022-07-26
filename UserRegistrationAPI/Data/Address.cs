@@ -5,7 +5,7 @@ namespace UserRegistrationAPI.Models
 {
     public class Address
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         public string City { get; set; }

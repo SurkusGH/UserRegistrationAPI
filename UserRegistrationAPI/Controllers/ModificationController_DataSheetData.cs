@@ -27,7 +27,7 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [HttpPut("FirstNameMod")]
-        public async Task<IActionResult> UpdateDataSheetDTO_FirstName(Guid id, [FromBody] UpdateDataSheetDTO_FirstName userDTO)
+        public async Task<IActionResult> UpdateDataSheetDTO_FirstName(string id, [FromBody] UpdateDataSheetDTO_FirstName userDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -50,7 +50,7 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [HttpPut("LastNameMod")]
-        public async Task<IActionResult> UpdateDataSheetDTO_LastName(Guid id, [FromBody] UpdateDataSheetDTO_LastName userDTO)
+        public async Task<IActionResult> UpdateDataSheetDTO_LastName(string id, [FromBody] UpdateDataSheetDTO_LastName userDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [HttpPut("PersonalNumberMod")]
-        public async Task<IActionResult> UpdateDataSheetDTO_PersonalNumber(Guid id, [FromBody] UpdateDataSheetDTO_PersonalNumber userDTO)
+        public async Task<IActionResult> UpdateDataSheetDTO_PersonalNumber(string id, [FromBody] UpdateDataSheetDTO_PersonalNumber userDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [HttpPut("EmailMod")]
-        public async Task<IActionResult> UpdateDataSheetDTO_Email(Guid id, [FromBody] UpdateDataSheetDTO_Email userDTO)
+        public async Task<IActionResult> UpdateDataSheetDTO_Email(string id, [FromBody] UpdateDataSheetDTO_Email userDTO)
         {
             if (!ModelState.IsValid)
             {

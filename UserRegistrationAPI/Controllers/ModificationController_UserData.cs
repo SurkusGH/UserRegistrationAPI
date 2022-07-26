@@ -28,7 +28,7 @@ namespace UserRegistrationAPI.Controllers
 
 
         [HttpPut("UsernameMod")]
-        public async Task<IActionResult> UpdateUser_Username(Guid id, [FromBody] UpdateUserDTO_Username userDTO)
+        public async Task<IActionResult> UpdateUser_Username(string id, [FromBody] UpdateUserDTO_Username userDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -51,7 +51,7 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [HttpPut("PasswordMod")]
-        public async Task<IActionResult> UpdateUser_Password(Guid id, [FromBody] UpdateUserDTO_Password userDTO)
+        public async Task<IActionResult> UpdateUser_Password(string id, [FromBody] UpdateUserDTO_Password userDTO)
         {
             if (!ModelState.IsValid)
             {

@@ -6,22 +6,22 @@ namespace UserRegistrationAPI.Models
 {
     public class DataSheet
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
-        public double PersonalNumber { get; set; }
+        public string IdentificationNumber { get; set; }
 
         public string Email { get; set; }
 
         //public byte[] Photo { get; set; }
 
         [ForeignKey(nameof(Address))]
-        public Guid AddressId { get; set; }
+        public string AddressId { get; set; }
         public Address Address { get; set; }
 
-        public virtual IList<Address> Addresses { get; set; }
+
     }
 }
