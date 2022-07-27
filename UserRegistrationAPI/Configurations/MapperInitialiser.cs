@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using UserRegistrationAPI.Models;
+using UserRegistrationAPI.Core.DTOs;
+using UserRegistrationAPI.Data.Data;
 
 namespace UserRegistrationAPI.Configurations
 {

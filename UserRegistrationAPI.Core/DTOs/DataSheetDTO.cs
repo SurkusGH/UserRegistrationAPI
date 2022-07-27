@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using UserRegistrationAPI.Data.Data;
 
-namespace UserRegistrationAPI.Models
+namespace UserRegistrationAPI.Core.DTOs
 {
     public class DataSheetDTO : CreateDataSheetDTO
     {
@@ -49,7 +49,7 @@ namespace UserRegistrationAPI.Models
         [Required]
         [StringLength(maximumLength: 25, ErrorMessage = "(!) LastName Is Too Long.")]
         public string LastName { get; set; }
-        
+
         [Required]
         [StringLength(11, ErrorMessage = "Your PersonalNumber Has To Be Exactly 11 Digits Long", MinimumLength = 11)]
         public string IdentificationNumber { get; set; }

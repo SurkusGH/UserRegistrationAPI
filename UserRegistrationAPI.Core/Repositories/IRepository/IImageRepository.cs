@@ -1,7 +1,6 @@
-﻿using net17_ImageThumbnail.Models;
-using System;
+﻿using UserRegistrationAPI.Data.Data;
 
-namespace UserRegistrationAPI.Repositories.IRepository
+namespace UserRegistrationAPI.Core.Repositories.IRepository
 {
     public interface IImageRepository
     {

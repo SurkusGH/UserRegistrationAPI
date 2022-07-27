@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using UserRegistrationAPI.Models;
+using UserRegistrationAPI.Data.Data;
 
-namespace UserRegistrationAPI.Repositories.IRepository
+namespace UserRegistrationAPI.Core.Repositories.IRepository
 {
 
     public interface IUnitOfWork : IDisposable

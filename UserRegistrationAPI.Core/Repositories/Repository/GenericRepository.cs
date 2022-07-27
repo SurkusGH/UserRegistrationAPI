@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using UserRegistrationAPI.Models;
-using UserRegistrationAPI.Repositories.IRepository;
+using UserRegistrationAPI.Core.Repositories.IRepository;
+using UserRegistrationAPI.Data;
 
-namespace UserRegistrationAPI.Repositories.Repository
+namespace UserRegistrationAPI.Core.Repositories.Repository
 {
 
     public class GenericRepository<T> : IGenericRepository<T> where T : class

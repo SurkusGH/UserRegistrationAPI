@@ -1,7 +1,7 @@
-﻿using net17_ImageThumbnail.Models;
-using System;
+﻿using System;
+using UserRegistrationAPI.Data.Data;
 
-namespace UserRegistrationAPI.Services
+namespace UserRegistrationAPI.Core.Services
 {
     public interface IImageService
     {

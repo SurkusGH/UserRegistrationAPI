@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using UserRegistrationAPI.Models;
-using UserRegistrationAPI.Repositories.IRepository;
+using UserRegistrationAPI.Data;
+using UserRegistrationAPI.Core.Repositories.IRepository;
+using UserRegistrationAPI.Data.Data;
 
-namespace UserRegistrationAPI.Repositories.Repository
+namespace UserRegistrationAPI.Core.Repositories.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {

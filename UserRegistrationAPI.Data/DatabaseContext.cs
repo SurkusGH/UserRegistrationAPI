@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using net17_ImageThumbnail.Models;
-using System;
-using UserRegistrationAPI.Configurations.Entities;
-using UserRegistrationAPI.Models;
+using UserRegistrationAPI.Data.Configurations.Entities;
+using UserRegistrationAPI.Data.Data;
 
-namespace UserRegistrationAPI
+namespace UserRegistrationAPI.Data
 {
     public class DatabaseContext : IdentityDbContext<User>
     {

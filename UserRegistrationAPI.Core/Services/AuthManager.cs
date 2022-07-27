@@ -7,9 +7,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using UserRegistrationAPI.Models;
+using UserRegistrationAPI.Core.DTOs;
+using UserRegistrationAPI.Data.Data;
 
-namespace UserRegistrationAPI.Services
+namespace UserRegistrationAPI.Core.Services
 {
     public class AuthManager : IAuthManager
     {

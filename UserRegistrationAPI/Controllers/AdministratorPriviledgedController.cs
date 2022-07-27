@@ -7,8 +7,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UserRegistrationAPI.Models;
-using UserRegistrationAPI.Repositories.IRepository;
+using UserRegistrationAPI.Core.DTOs;
+using UserRegistrationAPI.Core.Repositories.IRepository;
 
 namespace UserRegistrationAPI.Controllers
 {

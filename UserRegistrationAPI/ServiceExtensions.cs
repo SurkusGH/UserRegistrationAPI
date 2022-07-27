@@ -4,7 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using UserRegistrationAPI.Models;
+using UserRegistrationAPI.Data;
+using UserRegistrationAPI.Data.Data;
 
 namespace UserRegistrationAPI
 {
