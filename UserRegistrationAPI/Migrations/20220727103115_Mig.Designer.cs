@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserRegistrationAPI;
 
 namespace UserRegistrationAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220727103115_Mig")]
+    partial class Mig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace UserRegistrationAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "78f368bc-3f17-4df7-b419-71c58fcdad69",
-                            ConcurrencyStamp = "14281f87-8e45-4b76-97f4-5fb376d43637",
+                            Id = "f7bc5726-0d97-4c06-ba75-f22ff7194587",
+                            ConcurrencyStamp = "5ca4f2ed-96f6-452e-b5bb-3ea2144aa327",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "5f066e3a-a22c-4d30-96d8-8c29e1680d60",
-                            ConcurrencyStamp = "6ef4e5d4-4d87-49f1-be01-0713e40bfd35",
+                            Id = "90786b94-e42c-4443-ab05-9e497b106631",
+                            ConcurrencyStamp = "c91f379d-2ec7-48a2-ad7d-45d8467f124e",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -178,6 +180,9 @@ namespace UserRegistrationAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DataSheetId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("House")
                         .HasColumnType("int");
 
@@ -186,6 +191,8 @@ namespace UserRegistrationAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DataSheetId");
 
                     b.ToTable("Addresses");
                 });
@@ -203,9 +210,6 @@ namespace UserRegistrationAPI.Migrations
 
                     b.Property<string>("IdentificationNumber")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("ImageData")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
@@ -287,23 +291,6 @@ namespace UserRegistrationAPI.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("net17_ImageThumbnail.Models.ImageObject", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ContentType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("ImageData")
-                        .HasColumnType("varbinary(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Images");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -355,6 +342,13 @@ namespace UserRegistrationAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("UserRegistrationAPI.Models.Address", b =>
+                {
+                    b.HasOne("UserRegistrationAPI.Models.DataSheet", null)
+                        .WithMany("Addresses")
+                        .HasForeignKey("DataSheetId");
+                });
+
             modelBuilder.Entity("UserRegistrationAPI.Models.DataSheet", b =>
                 {
                     b.HasOne("UserRegistrationAPI.Models.Address", "Address")
@@ -371,6 +365,11 @@ namespace UserRegistrationAPI.Migrations
                         .HasForeignKey("DataSheetId");
 
                     b.Navigation("DataSheet");
+                });
+
+            modelBuilder.Entity("UserRegistrationAPI.Models.DataSheet", b =>
+                {
+                    b.Navigation("Addresses");
                 });
 #pragma warning restore 612, 618
         }

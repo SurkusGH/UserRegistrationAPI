@@ -37,7 +37,8 @@ namespace UserRegistrationAPI.Repositories.Repository
         }
 
         public async Task<T> Get(Expression<Func<T, bool>> expression,
-                                 Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+                                 Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null
+                                 )
         {
             IQueryable<T> query = _db; // <- query of everything in a db *SET* meaning certain table countries/hotels
             if (include != null) // <- it include property which I indicate it to; but its optional
@@ -53,7 +54,8 @@ namespace UserRegistrationAPI.Repositories.Repository
 
         public async Task<IList<T>> GetAll(Expression<Func<T, bool>> expression = null,
                                            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-                                           Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+                                           Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null
+                                           )
         {
             IQueryable<T> query = _db;
 
@@ -107,6 +109,14 @@ namespace UserRegistrationAPI.Repositories.Repository
             _db.Attach(entity); // <- starts tracking entity
             _context.Entry(entity).State = EntityState.Modified; // <- when it detects mod, applyes it
         }
+
+        //public IIncludableQueryable LoadRelatedDataFor_oneUser(string id)
+        //{
+        //    var user = _context.Users.Include(user => user.DataSheet).ThenInclude(x => x.Address);
+        //    return user;
+
+        //}
+
     }
 }
 

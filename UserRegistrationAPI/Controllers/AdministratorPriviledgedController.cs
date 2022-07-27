@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,13 +28,13 @@ namespace UserRegistrationAPI.Controllers
             _logger = logger;
             _mapper = mapper;
         }
-
-        [HttpGet("AdminPriviledged_AllUserData")]
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("AdminPriviledged_UserData")]
         public async Task<IActionResult> GetUsers()
         {
             try
             {
-                var users = await _unitOfWork.Users.GetAll(include: q => q.Include(x => x.DataSheet));
+                var users = await _unitOfWork.Users.GetAll(include: q => q.Include(x => x.DataSheet).ThenInclude(x => x.Address));
 
                 var result = _mapper.Map<List<UserDTO>>(users);
                 return Ok(result);
@@ -44,7 +45,7 @@ namespace UserRegistrationAPI.Controllers
                 return StatusCode(500, "(!) Internal Server Error. Please Try Again Later.");
             }
         }
-
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("DeleteUser")]
         #region Status.Codes
         [ProducesResponseType(StatusCodes.Status200OK)]                     // <- these attributes gives more info for dev (in swagger)

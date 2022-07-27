@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [HttpPut("CityMod")]
-        public async Task<IActionResult> UpdateAddressDTO_City(string id, [FromBody] UpdateAddressDTO_City userDTO)
+        public async Task<IActionResult> UpdateAddressDTO_City(string id, [FromBody] UpdateAddressDTO_City dto)
         {
             if (!ModelState.IsValid)
             {
@@ -35,22 +36,24 @@ namespace UserRegistrationAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _unitOfWork.Users.Get(q => q.Id == id);
+            var user = await _unitOfWork.Users.Get(x => x.Id == id, include: y => y.Include(j => j.DataSheet).ThenInclude(x => x.Address));
             if (user == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateAddressDTO_City)}");
                 return BadRequest("Submitted data is invalid");
             }
 
-            _mapper.Map(userDTO, user);
-            _unitOfWork.Users.Update(user);
+            user.DataSheet.Address.City = dto.City;
+
+            _unitOfWork.Addresses.Update(user.DataSheet.Address);
             await _unitOfWork.Save();
+
 
             return NoContent();
         }
 
         [HttpPut("StreetMod")]
-        public async Task<IActionResult> UpdateAddressDTO_Street(string id, [FromBody] UpdateAddressDTO_Street userDTO)
+        public async Task<IActionResult> UpdateAddressDTO_Street(string id, [FromBody] UpdateAddressDTO_Street dto)
         {
             if (!ModelState.IsValid)
             {
@@ -58,22 +61,24 @@ namespace UserRegistrationAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _unitOfWork.Users.Get(q => q.Id == id);
+            var user = await _unitOfWork.Users.Get(x => x.Id == id, include: y => y.Include(j => j.DataSheet).ThenInclude(x => x.Address));
             if (user == null)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateAddressDTO_Street)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateAddressDTO_City)}");
                 return BadRequest("Submitted data is invalid");
             }
 
-            _mapper.Map(userDTO, user);
-            _unitOfWork.Users.Update(user);
+            user.DataSheet.Address.Street = dto.Street;
+
+            _unitOfWork.Addresses.Update(user.DataSheet.Address);
             await _unitOfWork.Save();
+
 
             return NoContent();
         }
 
         [HttpPut("HouseMod")]
-        public async Task<IActionResult> UpdateAddressDTO_House(string id, [FromBody] UpdateAddressDTO_City userDTO)
+        public async Task<IActionResult> UpdateAddressDTO_House(string id, [FromBody] UpdateAddressDTO_House dto)
         {
             if (!ModelState.IsValid)
             {
@@ -81,22 +86,24 @@ namespace UserRegistrationAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _unitOfWork.Users.Get(q => q.Id == id);
+            var user = await _unitOfWork.Users.Get(x => x.Id == id, include: y => y.Include(j => j.DataSheet).ThenInclude(x => x.Address));
             if (user == null)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateAddressDTO_House)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateAddressDTO_City)}");
                 return BadRequest("Submitted data is invalid");
             }
 
-            _mapper.Map(userDTO, user);
-            _unitOfWork.Users.Update(user);
+            user.DataSheet.Address.House = dto.House;
+
+            _unitOfWork.Addresses.Update(user.DataSheet.Address);
             await _unitOfWork.Save();
+
 
             return NoContent();
         }
 
         [HttpPut("ApartamentMod")]
-        public async Task<IActionResult> UpdateAddressDTO_Apartament(string id, [FromBody] UpdateAddressDTO_Apartament userDTO)
+        public async Task<IActionResult> UpdateAddressDTO_Apartament(string id, [FromBody] UpdateAddressDTO_Apartament dto)
         {
             if (!ModelState.IsValid)
             {
@@ -104,16 +111,18 @@ namespace UserRegistrationAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _unitOfWork.Users.Get(q => q.Id == id);
+            var user = await _unitOfWork.Users.Get(x => x.Id == id, include: y => y.Include(j => j.DataSheet).ThenInclude(x => x.Address));
             if (user == null)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateAddressDTO_Apartament)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateAddressDTO_City)}");
                 return BadRequest("Submitted data is invalid");
             }
 
-            _mapper.Map(userDTO, user);
-            _unitOfWork.Users.Update(user);
+            user.DataSheet.Address.Apartament = dto.Apartament;
+
+            _unitOfWork.Addresses.Update(user.DataSheet.Address);
             await _unitOfWork.Save();
+
 
             return NoContent();
         }

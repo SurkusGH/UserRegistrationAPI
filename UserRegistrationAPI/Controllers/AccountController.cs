@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UserRegistrationAPI.DTOs;
+
 
 using UserRegistrationAPI.Models;
 using UserRegistrationAPI.Repositories.IRepository;
@@ -71,7 +71,7 @@ namespace UserRegistrationAPI.Controllers
                     return BadRequest(ModelState);
                 }
 
-                await _userManager.AddToRolesAsync(user, userDto.Roles);
+                await _userManager.AddToRolesAsync(user, new List<string>() { "User" });
                 return Accepted();
             }
             catch (Exception ex)
@@ -101,6 +101,40 @@ namespace UserRegistrationAPI.Controllers
                 _unitOfWork.Users.Update(user);
 
                 await _unitOfWork.DataSheets.Insert(dataSheet);
+                await _unitOfWork.Save();
+
+                return Accepted();
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError(ex, $"Something Went Wrong in the {nameof(Register)}");
+                return Problem($"Something Went Wrong in the {nameof(Register)}", statusCode: 500); // <- Different way to do this
+            }
+        }
+
+        [HttpPost]
+        [Route("FillAdress")]
+        public async Task<IActionResult> FillAdress([FromBody] CreateAddressDTO adressDTO, string userId)
+        {
+            _logger.LogInformation($"Registration Attempt for {adressDTO}");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var user = await _unitOfWork.Users.Get(q => q.Id == userId, include: x => x.Include(y => y.DataSheet));
+                var dataSheet = await _unitOfWork.DataSheets.Get(q => q.Id == user.DataSheetId, include: x => x.Include(y => y.Address));
+
+                var adress = _mapper.Map<Address>(adressDTO);
+
+                dataSheet.Address = adress;
+                _unitOfWork.DataSheets.Update(dataSheet);
+
+                _ = _unitOfWork.Addresses.Insert(dataSheet.Address);
+
                 await _unitOfWork.Save();
 
                 return Accepted();

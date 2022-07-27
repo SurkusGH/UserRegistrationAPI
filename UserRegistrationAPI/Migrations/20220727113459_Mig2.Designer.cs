@@ -10,8 +10,8 @@ using UserRegistrationAPI;
 namespace UserRegistrationAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220726182357_Roles")]
-    partial class Roles
+    [Migration("20220727113459_Mig2")]
+    partial class Mig2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,15 +50,15 @@ namespace UserRegistrationAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f5f813c0-3a4a-4898-85e5-6b4f237b0fb8",
-                            ConcurrencyStamp = "97301496-c895-4a9c-bc42-2af9da84b426",
+                            Id = "78f368bc-3f17-4df7-b419-71c58fcdad69",
+                            ConcurrencyStamp = "14281f87-8e45-4b76-97f4-5fb376d43637",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "6d781170-244a-4995-9dbb-f4a23fad8beb",
-                            ConcurrencyStamp = "f4ca415d-b509-4a13-a77d-e5934834a303",
+                            Id = "5f066e3a-a22c-4d30-96d8-8c29e1680d60",
+                            ConcurrencyStamp = "6ef4e5d4-4d87-49f1-be01-0713e40bfd35",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -190,24 +190,6 @@ namespace UserRegistrationAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Addresses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "9245fe4a-d402-451c-b9ed-9c1a04247482",
-                            Apartament = 10,
-                            City = "Vilnius",
-                            House = 10,
-                            Street = "Neries g."
-                        },
-                        new
-                        {
-                            Id = "083a8133-231d-4028-a878-b365ba2f9eb4",
-                            Apartament = 20,
-                            City = "Kaunas",
-                            House = 20,
-                            Street = "Nemuno g."
-                        });
                 });
 
             modelBuilder.Entity("UserRegistrationAPI.Models.DataSheet", b =>
@@ -218,14 +200,14 @@ namespace UserRegistrationAPI.Migrations
                     b.Property<string>("AddressId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdentificationNumber")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
@@ -235,26 +217,6 @@ namespace UserRegistrationAPI.Migrations
                     b.HasIndex("AddressId");
 
                     b.ToTable("DataSheets");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "9245fe4a-d402-451c-b9ed-9c1a04247482",
-                            AddressId = "9245fe4a-d402-451c-b9ed-9c1a04247482",
-                            Email = "vardenis@vardenis.lt",
-                            FirstName = "Vardenis",
-                            IdentificationNumber = "38989521245",
-                            LastName = "Pavarednis"
-                        },
-                        new
-                        {
-                            Id = "083a8133-231d-4028-a878-b365ba2f9eb4",
-                            AddressId = "083a8133-231d-4028-a878-b365ba2f9eb4",
-                            Email = "antanas@antanas.lt",
-                            FirstName = "Antanas",
-                            IdentificationNumber = "38989521245",
-                            LastName = "Antanaitis"
-                        });
                 });
 
             modelBuilder.Entity("UserRegistrationAPI.Models.User", b =>
@@ -325,32 +287,23 @@ namespace UserRegistrationAPI.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = "3f1b3431-c92e-4f5f-b9b2-dfc5f28cd9e0",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "80d7b23a-2d22-40d1-896c-9fc7dd43abb7",
-                            DataSheetId = "9245fe4a-d402-451c-b9ed-9c1a04247482",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "73176b30-e0d3-47c3-8b13-92f2af9726c1",
-                            TwoFactorEnabled = false
-                        },
-                        new
-                        {
-                            Id = "4f00bbdf-d71a-45ff-b51e-e630d2efa9dd",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "211f6744-f2a8-47ec-8cea-83c860965a63",
-                            DataSheetId = "083a8133-231d-4028-a878-b365ba2f9eb4",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "51807527-72d7-4ba7-ad79-50c3f31c9468",
-                            TwoFactorEnabled = false
-                        });
+            modelBuilder.Entity("net17_ImageThumbnail.Models.ImageObject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

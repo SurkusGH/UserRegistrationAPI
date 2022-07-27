@@ -1,11 +1,16 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using net17_ImageThumbnail.Models;
 using System;
+using System.IO;
 using System.Threading.Tasks;
+using UserRegistrationAPI.Data.Image;
 using UserRegistrationAPI.Models;
 using UserRegistrationAPI.Repositories.IRepository;
+using UserRegistrationAPI.Services;
 
 namespace UserRegistrationAPI.Controllers
 {
@@ -16,18 +21,21 @@ namespace UserRegistrationAPI.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<DataLoadingController> _logger;
         private readonly IMapper _mapper;
+        private readonly IImageService _service;
 
         public ModificationController_DataSheetData(IUnitOfWork unitOfWork,
                                 ILogger<DataLoadingController> logger,
-                                IMapper mapper)
+                                IMapper mapper,
+                                IImageService imageService)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
             _mapper = mapper;
+            _service = imageService;
         }
 
         [HttpPut("FirstNameMod")]
-        public async Task<IActionResult> UpdateDataSheetDTO_FirstName(string id, [FromBody] UpdateDataSheetDTO_FirstName userDTO)
+        public async Task<IActionResult> UpdateDataSheetDTO_FirstName(string id, [FromBody] UpdateDataSheetDTO_FirstName DTO)
         {
             if (!ModelState.IsValid)
             {
@@ -35,22 +43,23 @@ namespace UserRegistrationAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _unitOfWork.Users.Get(q => q.Id == id);
+            var user = await _unitOfWork.Users.Get(x => x.Id == id, include: y => y.Include(j => j.DataSheet));
             if (user == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateDataSheetDTO_FirstName)}");
                 return BadRequest("Submitted data is invalid");
             }
 
-            _mapper.Map(userDTO, user);
-            _unitOfWork.Users.Update(user);
+            user.DataSheet.FirstName = DTO.FirstName;
+
+            _unitOfWork.DataSheets.Update(user.DataSheet);
             await _unitOfWork.Save();
 
             return NoContent();
         }
 
         [HttpPut("LastNameMod")]
-        public async Task<IActionResult> UpdateDataSheetDTO_LastName(string id, [FromBody] UpdateDataSheetDTO_LastName userDTO)
+        public async Task<IActionResult> UpdateDataSheetDTO_LastName(string id, [FromBody] UpdateDataSheetDTO_LastName DTO)
         {
             if (!ModelState.IsValid)
             {
@@ -58,69 +67,73 @@ namespace UserRegistrationAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _unitOfWork.Users.Get(q => q.Id == id);
+            var user = await _unitOfWork.Users.Get(x => x.Id == id, include: y => y.Include(j => j.DataSheet));
             if (user == null)
             {
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateDataSheetDTO_LastName)}");
                 return BadRequest("Submitted data is invalid");
             }
 
-            _mapper.Map(userDTO, user);
-            _unitOfWork.Users.Update(user);
+            user.DataSheet.LastName = DTO.LastName;
+
+            _unitOfWork.DataSheets.Update(user.DataSheet);
             await _unitOfWork.Save();
 
             return NoContent();
         }
 
-        [HttpPut("PersonalNumberMod")]
-        public async Task<IActionResult> UpdateDataSheetDTO_PersonalNumber(string id, [FromBody] UpdateDataSheetDTO_PersonalNumber userDTO)
+        [HttpPut("IdentificationNumberMod")]
+        public async Task<IActionResult> UpdateDataSheetDTO_IdentificationNumber(string id, [FromBody] UpdateDataSheetDTO_IdentificationNumber DTO)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateDataSheetDTO_PersonalNumber)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateDataSheetDTO_IdentificationNumber)}");
                 return BadRequest(ModelState);
             }
 
-            var user = await _unitOfWork.Users.Get(q => q.Id == id);
+            var user = await _unitOfWork.Users.Get(x => x.Id == id, include: y => y.Include(j => j.DataSheet));
             if (user == null)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateDataSheetDTO_PersonalNumber)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateDataSheetDTO_IdentificationNumber)}");
                 return BadRequest("Submitted data is invalid");
             }
 
-            _mapper.Map(userDTO, user);
-            _unitOfWork.Users.Update(user);
+            user.DataSheet.IdentificationNumber = DTO.IdentificationNumber;
+
+            _unitOfWork.DataSheets.Update(user.DataSheet);
             await _unitOfWork.Save();
 
             return NoContent();
         }
 
-        [HttpPut("EmailMod")]
-        public async Task<IActionResult> UpdateDataSheetDTO_Email(string id, [FromBody] UpdateDataSheetDTO_Email userDTO)
+        [HttpPost("AddPicture")]
+        public async Task<IActionResult> AddPicture(string id, [FromForm] ImageUploadRequest imageRequest)
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateDataSheetDTO_Email)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateDataSheetDTO_IdentificationNumber)}");
                 return BadRequest(ModelState);
             }
 
-            var user = await _unitOfWork.Users.Get(q => q.Id == id);
+            var user = await _unitOfWork.Users.Get(x => x.Id == id, include: y => y.Include(j => j.DataSheet));
             if (user == null)
             {
-                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateDataSheetDTO_Email)}");
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateDataSheetDTO_IdentificationNumber)}");
                 return BadRequest("Submitted data is invalid");
             }
 
-            _mapper.Map(userDTO, user);
-            _unitOfWork.Users.Update(user);
+            using var memoryStream = new MemoryStream();
+            imageRequest.Image.CopyTo(memoryStream);
+            var imageBytes = memoryStream.ToArray();
+
+            var imageBytesSetSize = AdjustImage.ResizeImage(imageBytes);
+
+            user.DataSheet.ImageData = imageBytesSetSize;
+
+            _unitOfWork.DataSheets.Update(user.DataSheet);
             await _unitOfWork.Save();
 
             return NoContent();
         }
     }
 }
-
-//CreateMap<DataSheet, UpdateDataSheetDTO_FirstName>().ReverseMap();
-//CreateMap<DataSheet, UpdateDataSheetDTO_LastName>().ReverseMap();
-//CreateMap<DataSheet, UpdateDataSheetDTO_PersonalNumber>().ReverseMap();
-//CreateMap<DataSheet, UpdateDataSheetDTO_Email>().ReverseMap();

@@ -41,6 +41,9 @@ namespace UserRegistrationAPI
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthManager, AuthManager>();
 
+            services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<IImageService, ImageService>();
+
             services.AddAutoMapper(typeof(MapperInitialiser));
 
             #region (!) Cross-Origin-Resource-Sharing setup
@@ -80,6 +83,7 @@ namespace UserRegistrationAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -10,7 +10,14 @@ namespace UserRegistrationAPI.Models
 
         public Address Addresses { get; set; }
 
-        
+        public byte[] ImageData { get; set; }
+
+
+    }
+
+    public class AddDataSheetDTO_Picture
+    {
+        public byte[] ImageData { get; set; }
     }
 
     public class UpdateDataSheetDTO_FirstName
@@ -25,17 +32,11 @@ namespace UserRegistrationAPI.Models
         [StringLength(maximumLength: 25, ErrorMessage = "(!) LastName Is Too Long.")]
         public string LastName { get; set; }
     }
-    public class UpdateDataSheetDTO_PersonalNumber
+    public class UpdateDataSheetDTO_IdentificationNumber
     {
         [Required]
         [StringLength(11, ErrorMessage = "Your PersonalNumber Has To Be Exactly 11 Digits Long", MinimumLength = 11)]
         public string IdentificationNumber { get; set; }
-    }
-    public class UpdateDataSheetDTO_Email
-    {
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
     }
 
     public class CreateDataSheetDTO
@@ -48,14 +49,9 @@ namespace UserRegistrationAPI.Models
         [Required]
         [StringLength(maximumLength: 25, ErrorMessage = "(!) LastName Is Too Long.")]
         public string LastName { get; set; }
+        
         [Required]
         [StringLength(11, ErrorMessage = "Your PersonalNumber Has To Be Exactly 11 Digits Long", MinimumLength = 11)]
         public string IdentificationNumber { get; set; }
-
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
-
-        //public IList<CreateAddressDTO> Address { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace UserRegistrationAPI.Models
         public string Id { get; set; }
         public DataSheet DataSheet { get; set; }
 
+
     }
 
     public class LoginUserDTO
@@ -25,6 +26,7 @@ namespace UserRegistrationAPI.Models
     {
         [Required]
         [StringLength(maximumLength: 25, ErrorMessage = "(!) Username Is Too Long.")]
+        [DataType(DataType.EmailAddress)]
         public string Username { get; set; }
     }
 
@@ -49,12 +51,7 @@ namespace UserRegistrationAPI.Models
         public string Password { get; set; }
 
         [Required]
-        //private string Roles { get; set; } = "User";
-
-        public ICollection<string> Roles { get; set; }// = new List<string> { "User" };
-
-        //[Required]
-        //public CreateDataSheetDTO DataSheet { get; set; }
+        private ICollection<string> Roles { get; set; }
 
 
     }

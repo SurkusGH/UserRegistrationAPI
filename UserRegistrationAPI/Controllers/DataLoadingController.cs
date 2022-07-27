@@ -33,11 +33,11 @@ namespace UserRegistrationAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]                     // <- these attributes gives more info for dev (in swagger)
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         #endregion
-        public async Task<IActionResult> GetUserById(string id)
+        public async Task<IActionResult> GetUserById(string userId)
         {
             try
             {
-                var user = await _unitOfWork.Users.Get(q => q.Id == id);
+                var user = await _unitOfWork.Users.Get(q => q.Id == userId, include: x => x.Include(x => x.DataSheet));
                 var result = _mapper.Map<UserDTO>(user);
                 return Ok(result);
             }

@@ -14,14 +14,10 @@ namespace UserRegistrationAPI.Models
 
         public string IdentificationNumber { get; set; }
 
-        public string Email { get; set; }
-
-        //public byte[] Photo { get; set; }
+        public byte[] ImageData { get; set; }
 
         [ForeignKey(nameof(Address))]
         public string AddressId { get; set; }
         public Address Address { get; set; }
-
-
     }
 }

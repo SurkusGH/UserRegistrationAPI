@@ -13,13 +13,14 @@ namespace UserRegistrationAPI.Configurations
             CreateMap<User, UpdateUserDTO_Password>().ReverseMap();
             CreateMap<User, LoginUserDTO>().ReverseMap();
 
+            //CreateMap<User, UpdateDataSheetDTO_FirstName>().ReverseMap();
+
             CreateMap<DataSheet, DataSheetDTO>().ReverseMap();
             CreateMap<DataSheet, DataSheetDTO>().ReverseMap();
             CreateMap<DataSheet, CreateDataSheetDTO>().ReverseMap();
             CreateMap<DataSheet, UpdateDataSheetDTO_FirstName>().ReverseMap();
             CreateMap<DataSheet, UpdateDataSheetDTO_LastName>().ReverseMap();
-            CreateMap<DataSheet, UpdateDataSheetDTO_PersonalNumber>().ReverseMap();
-            CreateMap<DataSheet, UpdateDataSheetDTO_Email>().ReverseMap();
+            CreateMap<DataSheet, UpdateDataSheetDTO_IdentificationNumber>().ReverseMap();
 
             CreateMap<Address, AddressDTO>().ReverseMap();
             CreateMap<Address, CreateAddressDTO>().ReverseMap();
