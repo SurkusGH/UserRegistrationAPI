@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using UserRegistrationAPI.Models;
 
-namespace UserRegistrationAPI.Repositories.IRepository
+namespace UserRegistrationAPI.Core.Repositories.IRepository
 {
     public interface IGenericRepository<T> where T : class
     {

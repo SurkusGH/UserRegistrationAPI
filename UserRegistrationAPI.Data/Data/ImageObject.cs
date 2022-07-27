@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace net17_ImageThumbnail.Models
+namespace UserRegistrationAPI.Data.Data
 {
     public class ImageObject
     {

@@ -1,23 +1,25 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 
 namespace UserRegistrationAPI.Data.Attributes
 {
-    public class MaxFileSizeAttribute : ValidationAttribute
+    public class AllowedExtensionAttribute : ValidationAttribute
     {
-        private readonly int _maxFileSize;
-        public MaxFileSizeAttribute(int maxFileSize)
+        private readonly string[] _extensions;
+        public AllowedExtensionAttribute(string[] extensions)
         {
-            _maxFileSize = maxFileSize;
+            _extensions = extensions;
         }
-
         protected override ValidationResult IsValid(
         object value, ValidationContext validationContext)
         {
             if (value is IFormFile file)
             {
-                if (file.Length > _maxFileSize)
+                var extension = Path.GetExtension(file.FileName);
+                if (!_extensions.Contains(extension.ToLower()))
                 {
                     return new ValidationResult(GetErrorMessage());
                 }
@@ -27,8 +29,9 @@ namespace UserRegistrationAPI.Data.Attributes
 
         public string GetErrorMessage()
         {
-            return $"Maximum allowed file size is {_maxFileSize} bytes.";
+            return $"This file extension is not allowed!";
         }
+
     }
 }
 

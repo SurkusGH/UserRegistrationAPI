@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
-using net17_ImageThumbnail.Attributes;
+﻿using Microsoft.AspNetCore.Http;
+using UserRegistrationAPI.Data.Attributes;
 
-namespace UserRegistrationAPI.Data.Image
+namespace UserRegistrationAPI.Data.Configurations.Image
 {
     public class ImageUploadRequest
     {

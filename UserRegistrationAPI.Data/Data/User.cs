@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace UserRegistrationAPI.Models
+namespace UserRegistrationAPI.Data.Data
 {
     public class User : IdentityUser
     {

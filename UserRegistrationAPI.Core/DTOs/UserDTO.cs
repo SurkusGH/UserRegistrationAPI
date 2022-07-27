@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using UserRegistrationAPI.Data.Data;
 
-namespace UserRegistrationAPI.Models
+namespace UserRegistrationAPI.Core.DTOs
 {
     public class UserDTO : CreateUserDTO
     {

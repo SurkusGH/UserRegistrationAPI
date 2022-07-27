@@ -1,14 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using net17_ImageThumbnail.Models;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.Processing;
-using System;
-using System.IO;
-using System.Linq;
-using UserRegistrationAPI.Repositories.IRepository;
+﻿using UserRegistrationAPI.Core.Repositories.IRepository;
+using UserRegistrationAPI.Data;
+using UserRegistrationAPI.Data.Data;
 
-namespace UserRegistrationAPI.Repositories.Repository
+namespace UserRegistrationAPI.Core.Repositories.Repository
 {
     public class ImageRepository : IImageRepository
     {

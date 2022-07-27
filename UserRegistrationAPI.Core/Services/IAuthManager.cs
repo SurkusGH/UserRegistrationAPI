@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using UserRegistrationAPI.Models;
+using UserRegistrationAPI.Core.DTOs;
 
-namespace UserRegistrationAPI.Services
+namespace UserRegistrationAPI.Core.Services
 {
     public interface IAuthManager
     {

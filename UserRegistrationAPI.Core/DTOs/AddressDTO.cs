@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UserRegistrationAPI.Models
+namespace UserRegistrationAPI.Core.DTOs
 {
     public class AddressDTO : CreateAddressDTO
     {

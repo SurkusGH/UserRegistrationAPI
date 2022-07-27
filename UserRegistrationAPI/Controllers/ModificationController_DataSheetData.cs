@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using net17_ImageThumbnail.Models;
-using System;
 using System.IO;
 using System.Threading.Tasks;
-using UserRegistrationAPI.Data.Image;
-using UserRegistrationAPI.Models;
-using UserRegistrationAPI.Repositories.IRepository;
-using UserRegistrationAPI.Services;
+using UserRegistrationAPI.Core.DTOs;
+using UserRegistrationAPI.Core.Repositories.IRepository;
+using UserRegistrationAPI.Core.Services;
+using UserRegistrationAPI.Data.Configurations.Image;
 
 namespace UserRegistrationAPI.Controllers
 {
