@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
 using System.Text;
 using UserRegistrationAPI.Data;
 using UserRegistrationAPI.Data.Data;
 
-namespace UserRegistrationAPI
+namespace UserRegistrationAPI.Core
 {
     public static class ServiceExtensions
     {
@@ -44,6 +45,11 @@ namespace UserRegistrationAPI
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
                         };
                     });
+        }
+
+        public static void ConfigureAutoMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
         }
     }
 }

@@ -1,12 +1,27 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace UserRegistrationAPI.Migrations
+namespace UserRegistrationAPI.Data.Migrations
 {
-    public partial class Mig : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    House = table.Column<int>(type: "int", nullable: false),
+                    Apartament = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -19,6 +34,41 @@ namespace UserRegistrationAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ImageData = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DataSheets",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdentificationNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageData = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DataSheets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DataSheets_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -40,43 +90,6 @@ namespace UserRegistrationAPI.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DataSheets",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IdentificationNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DataSheets", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Addresses",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    House = table.Column<int>(type: "int", nullable: false),
-                    Apartament = table.Column<int>(type: "int", nullable: false),
-                    DataSheetId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Addresses_DataSheets_DataSheetId",
-                        column: x => x.DataSheetId,
-                        principalTable: "DataSheets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -199,17 +212,12 @@ namespace UserRegistrationAPI.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "f7bc5726-0d97-4c06-ba75-f22ff7194587", "5ca4f2ed-96f6-452e-b5bb-3ea2144aa327", "User", "USER" });
+                values: new object[] { "4f0a67e7-d5ae-4891-821b-5c689ecde98a", "b403b22a-d8ce-4c8c-ad6c-8b1af7a5637f", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "90786b94-e42c-4443-ab05-9e497b106631", "c91f379d-2ec7-48a2-ad7d-45d8467f124e", "Administrator", "ADMINISTRATOR" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_DataSheetId",
-                table: "Addresses",
-                column: "DataSheetId");
+                values: new object[] { "83e1b786-720c-4145-9366-b8b7a1d56822", "7297ba68-1476-42e0-adcd-7325ebfdfd42", "Administrator", "ADMINISTRATOR" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -259,22 +267,10 @@ namespace UserRegistrationAPI.Migrations
                 name: "IX_DataSheets_AddressId",
                 table: "DataSheets",
                 column: "AddressId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_DataSheets_Addresses_AddressId",
-                table: "DataSheets",
-                column: "AddressId",
-                principalTable: "Addresses",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Addresses_DataSheets_DataSheetId",
-                table: "Addresses");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -289,6 +285,9 @@ namespace UserRegistrationAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

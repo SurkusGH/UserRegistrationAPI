@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
-namespace UserRegistrationAPI.Data.Attributes
+namespace UserRegistrationAPI.Core.Attributes
 {
     public class MaxFileSizeAttribute : ValidationAttribute
     {

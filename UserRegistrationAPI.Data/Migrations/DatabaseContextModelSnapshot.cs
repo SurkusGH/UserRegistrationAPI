@@ -3,18 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UserRegistrationAPI;
 using UserRegistrationAPI.Data;
 
-namespace UserRegistrationAPI.Migrations
+namespace UserRegistrationAPI.Data.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220727103115_Mig")]
-    partial class Mig
+    partial class DatabaseContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,15 +48,15 @@ namespace UserRegistrationAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f7bc5726-0d97-4c06-ba75-f22ff7194587",
-                            ConcurrencyStamp = "5ca4f2ed-96f6-452e-b5bb-3ea2144aa327",
+                            Id = "4f0a67e7-d5ae-4891-821b-5c689ecde98a",
+                            ConcurrencyStamp = "b403b22a-d8ce-4c8c-ad6c-8b1af7a5637f",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "90786b94-e42c-4443-ab05-9e497b106631",
-                            ConcurrencyStamp = "c91f379d-2ec7-48a2-ad7d-45d8467f124e",
+                            Id = "83e1b786-720c-4145-9366-b8b7a1d56822",
+                            ConcurrencyStamp = "7297ba68-1476-42e0-adcd-7325ebfdfd42",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -169,7 +166,7 @@ namespace UserRegistrationAPI.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("UserRegistrationAPI.Models.Address", b =>
+            modelBuilder.Entity("UserRegistrationAPI.Data.Data.Address", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -181,9 +178,6 @@ namespace UserRegistrationAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DataSheetId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("House")
                         .HasColumnType("int");
 
@@ -193,12 +187,10 @@ namespace UserRegistrationAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DataSheetId");
-
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("UserRegistrationAPI.Models.DataSheet", b =>
+            modelBuilder.Entity("UserRegistrationAPI.Data.Data.DataSheet", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -212,6 +204,9 @@ namespace UserRegistrationAPI.Migrations
                     b.Property<string>("IdentificationNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -222,7 +217,24 @@ namespace UserRegistrationAPI.Migrations
                     b.ToTable("DataSheets");
                 });
 
-            modelBuilder.Entity("UserRegistrationAPI.Models.User", b =>
+            modelBuilder.Entity("UserRegistrationAPI.Data.Data.ImageObject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("UserRegistrationAPI.Data.Data.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -303,7 +315,7 @@ namespace UserRegistrationAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("UserRegistrationAPI.Models.User", null)
+                    b.HasOne("UserRegistrationAPI.Data.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -312,7 +324,7 @@ namespace UserRegistrationAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("UserRegistrationAPI.Models.User", null)
+                    b.HasOne("UserRegistrationAPI.Data.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -327,7 +339,7 @@ namespace UserRegistrationAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UserRegistrationAPI.Models.User", null)
+                    b.HasOne("UserRegistrationAPI.Data.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -336,41 +348,29 @@ namespace UserRegistrationAPI.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("UserRegistrationAPI.Models.User", null)
+                    b.HasOne("UserRegistrationAPI.Data.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("UserRegistrationAPI.Models.Address", b =>
+            modelBuilder.Entity("UserRegistrationAPI.Data.Data.DataSheet", b =>
                 {
-                    b.HasOne("UserRegistrationAPI.Models.DataSheet", null)
-                        .WithMany("Addresses")
-                        .HasForeignKey("DataSheetId");
-                });
-
-            modelBuilder.Entity("UserRegistrationAPI.Models.DataSheet", b =>
-                {
-                    b.HasOne("UserRegistrationAPI.Models.Address", "Address")
+                    b.HasOne("UserRegistrationAPI.Data.Data.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
 
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("UserRegistrationAPI.Models.User", b =>
+            modelBuilder.Entity("UserRegistrationAPI.Data.Data.User", b =>
                 {
-                    b.HasOne("UserRegistrationAPI.Models.DataSheet", "DataSheet")
+                    b.HasOne("UserRegistrationAPI.Data.Data.DataSheet", "DataSheet")
                         .WithMany()
                         .HasForeignKey("DataSheetId");
 
                     b.Navigation("DataSheet");
-                });
-
-            modelBuilder.Entity("UserRegistrationAPI.Models.DataSheet", b =>
-                {
-                    b.Navigation("Addresses");
                 });
 #pragma warning restore 612, 618
         }

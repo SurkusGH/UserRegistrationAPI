@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using UserRegistrationAPI.Data.Data;
 
@@ -53,5 +54,7 @@ namespace UserRegistrationAPI.Core.DTOs
         [Required]
         [StringLength(11, ErrorMessage = "Your PersonalNumber Has To Be Exactly 11 Digits Long", MinimumLength = 11)]
         public string IdentificationNumber { get; set; }
+
+        public CreateAddressDTO Address { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 
-namespace net17_ImageThumbnail.Attributes
+namespace UserRegistrationAPI.Core.Attributes
 {
     public class AllowedExtensionAttribute : ValidationAttribute
     {

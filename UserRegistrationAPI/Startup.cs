@@ -5,7 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using UserRegistrationAPI.Configurations;
+using UserRegistrationAPI.Core;
+using UserRegistrationAPI.Core.Configurations;
 using UserRegistrationAPI.Core.Repositories.IRepository;
 using UserRegistrationAPI.Core.Repositories.Repository;
 using UserRegistrationAPI.Core.Services;
@@ -37,7 +38,8 @@ namespace UserRegistrationAPI
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IImageService, ImageService>();
 
-            services.AddAutoMapper(typeof(MapperInitialiser));
+            //services.AddAutoMapper(typeof(MapperInitialiser));
+            services.ConfigureAutoMapper();
 
             #region (!) Cross-Origin-Resource-Sharing setup
             services.AddCors(options =>

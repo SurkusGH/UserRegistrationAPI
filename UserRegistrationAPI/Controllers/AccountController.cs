@@ -171,5 +171,50 @@ namespace UserRegistrationAPI.Controllers
                 return Problem($"Something Went Wrong in the {nameof(Login)}", statusCode: 500); // <- Different way to do this
             }
         }
+
+        [HttpPost]
+        [Route("FillAllUserData")]
+        public async Task<IActionResult> FillAllUserData([FromBody] CreateDataSheetDTO dto, string userId)
+        {
+            _logger.LogInformation($"Registration Attempt for {dto}");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var user = await _unitOfWork.Users.Get(q => q.Id == userId, include: x => x.Include(y => y.DataSheet)
+                                                                                           .ThenInclude(f => f.Address));
+                //var dataSheet = await _unitOfWork.DataSheets.Get(q => q.Id == user.DataSheetId, include: x => x.Include(y => y.Address));
+
+
+                //user.DataSheet.FirstName = dto.FirstName;
+                //user.DataSheet.LastName = dto.LastName;
+                //user.DataSheet.IdentificationNumber = dto.IdentificationNumber;
+                //user.DataSheetId = dto.Address.
+
+                user.DataSheet = _mapper.Map<DataSheet>(dto);
+                user.DataSheet.Address = _mapper.Map<Address>(dto.Address);
+                user.DataSheetId = user.DataSheet.Id;
+
+                await _unitOfWork.DataSheets.Insert(user.DataSheet);
+                await _unitOfWork.Addresses.Insert(user.DataSheet.Address);
+
+                //user.DataSheet = dataSheet;
+                _unitOfWork.Users.Update(user);
+
+                //await _unitOfWork.DataSheets.Insert(dataSheet);
+                await _unitOfWork.Save();
+
+                return Accepted();
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError(ex, $"Something Went Wrong in the {nameof(Register)}");
+                return Problem($"Something Went Wrong in the {nameof(Register)}", statusCode: 500); // <- Different way to do this
+            }
+        }
     }
 }

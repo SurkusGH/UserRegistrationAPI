@@ -2,7 +2,7 @@
 using UserRegistrationAPI.Core.DTOs;
 using UserRegistrationAPI.Data.Data;
 
-namespace UserRegistrationAPI.Configurations
+namespace UserRegistrationAPI.Core.Configurations
 {
     public class MapperInitialiser : Profile
     {
@@ -13,8 +13,6 @@ namespace UserRegistrationAPI.Configurations
             CreateMap<User, UpdateUserDTO_Username>().ReverseMap();
             CreateMap<User, UpdateUserDTO_Password>().ReverseMap();
             CreateMap<User, LoginUserDTO>().ReverseMap();
-
-            //CreateMap<User, UpdateDataSheetDTO_FirstName>().ReverseMap();
 
             CreateMap<DataSheet, DataSheetDTO>().ReverseMap();
             CreateMap<DataSheet, DataSheetDTO>().ReverseMap();
