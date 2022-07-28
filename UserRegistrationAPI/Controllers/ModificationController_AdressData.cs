@@ -28,7 +28,7 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [Authorize]
-        [HttpPut("cityMod")]
+        [HttpPatch("cityMod")]
         #region Status.Codes
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -54,11 +54,11 @@ namespace UserRegistrationAPI.Controllers
             await _unitOfWork.Save();
 
 
-            return NoContent();
+            return Accepted();
         }
 
         [Authorize]
-        [HttpPut("streetMod")]
+        [HttpPatch("streetMod")]
         #region Status.Codes
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -84,11 +84,11 @@ namespace UserRegistrationAPI.Controllers
             await _unitOfWork.Save();
 
 
-            return NoContent();
+            return Accepted();
         }
 
         [Authorize]
-        [HttpPut("houseMod")]
+        [HttpPatch("houseMod")]
         #region Status.Codes
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -114,11 +114,11 @@ namespace UserRegistrationAPI.Controllers
             await _unitOfWork.Save();
 
 
-            return NoContent();
+            return Accepted();
         }
 
         [Authorize]
-        [HttpPut("apartamentMod")]
+        [HttpPatch("apartamentMod")]
         #region Status.Codes
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -144,7 +144,7 @@ namespace UserRegistrationAPI.Controllers
             await _unitOfWork.Save();
 
 
-            return NoContent();
+            return Accepted();
         }
 
     }

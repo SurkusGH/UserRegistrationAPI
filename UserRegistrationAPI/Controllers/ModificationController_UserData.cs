@@ -26,7 +26,7 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [Authorize]
-        [HttpPut("usernameMod")]
+        [HttpPatch("usernameMod")]
         public async Task<IActionResult> UpdateUser_Username(string id, [FromBody] UpdateUserDTO_Username dto)
         {
             if (!ModelState.IsValid)
@@ -46,11 +46,11 @@ namespace UserRegistrationAPI.Controllers
             _unitOfWork.Users.Update(user);
             await _unitOfWork.Save();
 
-            return NoContent();
+            return Accepted();
         }
 
         [Authorize]
-        [HttpPut("passwordMod")]
+        [HttpPatch("passwordMod")]
         public async Task<IActionResult> UpdateUser_Password(string id, [FromBody] UpdateUserDTO_Password dto)
         {
             if (!ModelState.IsValid)
@@ -70,7 +70,7 @@ namespace UserRegistrationAPI.Controllers
             _unitOfWork.Users.Update(user);
             await _unitOfWork.Save();
 
-            return NoContent();
+            return Accepted();
         }
     }
 }

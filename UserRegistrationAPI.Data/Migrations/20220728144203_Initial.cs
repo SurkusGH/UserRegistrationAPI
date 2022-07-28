@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UserRegistrationAPI.Data.Migrations
 {
-    public partial class CreteTables : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -212,12 +212,12 @@ namespace UserRegistrationAPI.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "90b2f714-582b-41ce-9390-905b4026afed", "13d41a6b-ef05-4499-8e00-62207795de89", "User", "USER" });
+                values: new object[] { "c9fce7a0-34c3-454b-8ae2-51e0d2bfd045", "dd2c666f-14a0-4703-ad12-04e4ead87716", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2e625612-152c-4b9b-9ba1-0317508f60cd", "cdd90671-ffcd-4bb2-ae78-4eb414810d7a", "Administrator", "ADMINISTRATOR" });
+                values: new object[] { "3818f529-3d25-4f0a-bafa-f9d84b04a161", "8c4b4165-d7c9-498d-8efa-cc549f56498e", "Administrator", "ADMINISTRATOR" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

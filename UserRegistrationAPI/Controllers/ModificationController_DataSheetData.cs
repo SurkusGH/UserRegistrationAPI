@@ -39,7 +39,7 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [Authorize]
-        [HttpPut("firstNameMod")]
+        [HttpPatch("firstNameMod")]
         #region Status.Codes
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -64,11 +64,11 @@ namespace UserRegistrationAPI.Controllers
             _unitOfWork.DataSheets.Update(user.DataSheet);
             await _unitOfWork.Save();
 
-            return NoContent();
+            return Accepted();
         }
 
         [Authorize]
-        [HttpPut("lastNameMod")]
+        [HttpPatch("lastNameMod")]
         #region Status.Codes
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -93,11 +93,11 @@ namespace UserRegistrationAPI.Controllers
             _unitOfWork.DataSheets.Update(user.DataSheet);
             await _unitOfWork.Save();
 
-            return NoContent();
+            return Accepted(); ;
         }
 
         [Authorize]
-        [HttpPut("identificationNumberMod")]
+        [HttpPatch("identificationNumberMod")]
         #region Status.Codes
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -122,11 +122,11 @@ namespace UserRegistrationAPI.Controllers
             _unitOfWork.DataSheets.Update(user.DataSheet);
             await _unitOfWork.Save();
 
-            return NoContent();
+            return Accepted();
         }
 
         [Authorize]
-        [HttpPut("pictureDatamod")]
+        [HttpPatch("pictureDatamod")]
         public async Task<IActionResult> AddPicture(string id, [FromForm] ImageUploadRequest imageRequest)
         {
             if (!ModelState.IsValid)
@@ -149,7 +149,7 @@ namespace UserRegistrationAPI.Controllers
             _unitOfWork.DataSheets.Update(user.DataSheet);
             await _unitOfWork.Save();
 
-            return NoContent();
+            return Accepted();
         }
     }
 }

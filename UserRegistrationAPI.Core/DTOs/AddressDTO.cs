@@ -34,17 +34,20 @@ namespace UserRegistrationAPI.Core.DTOs
 
     public class UpdateAddressDTO_City
     {
-        [Required]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = false)]
         public string City { get; set; }
     }
     public class UpdateAddressDTO_Street
     {
-        [Required]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = false)]
         public string Street { get; set; }
     }
     public class UpdateAddressDTO_House
     {
-        [Required]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = false)]
         public int House { get; set; }
     }
     public class UpdateAddressDTO_Apartament

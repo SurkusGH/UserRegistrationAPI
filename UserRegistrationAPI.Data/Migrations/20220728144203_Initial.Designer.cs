@@ -10,8 +10,8 @@ using UserRegistrationAPI.Data;
 namespace UserRegistrationAPI.Data.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220728141114_CreteTables")]
-    partial class CreteTables
+    [Migration("20220728144203_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,15 +50,15 @@ namespace UserRegistrationAPI.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "90b2f714-582b-41ce-9390-905b4026afed",
-                            ConcurrencyStamp = "13d41a6b-ef05-4499-8e00-62207795de89",
+                            Id = "c9fce7a0-34c3-454b-8ae2-51e0d2bfd045",
+                            ConcurrencyStamp = "dd2c666f-14a0-4703-ad12-04e4ead87716",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "2e625612-152c-4b9b-9ba1-0317508f60cd",
-                            ConcurrencyStamp = "cdd90671-ffcd-4bb2-ae78-4eb414810d7a",
+                            Id = "3818f529-3d25-4f0a-bafa-f9d84b04a161",
+                            ConcurrencyStamp = "8c4b4165-d7c9-498d-8efa-cc549f56498e",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
