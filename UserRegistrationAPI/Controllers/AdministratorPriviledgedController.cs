@@ -14,6 +14,10 @@ namespace UserRegistrationAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    #region Status.Codes
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    #endregion
     public class AdministratorPriviledgedController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -21,15 +25,20 @@ namespace UserRegistrationAPI.Controllers
         private readonly IMapper _mapper;
 
         public AdministratorPriviledgedController(IUnitOfWork unitOfWork,
-                           ILogger<AdministratorPriviledgedController> logger,
-                           IMapper mapper)
+                                                  ILogger<AdministratorPriviledgedController> logger,
+                                                  IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
             _mapper = mapper;
         }
+
+        #region Status.Codes
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        #endregion
         [Authorize(Roles = "Administrator")]
-        [HttpGet("AdminPriviledged_UserData")]
+        [HttpGet("adminPriviledged_userData")]
         public async Task<IActionResult> GetUsers()
         {
             try
@@ -46,23 +55,27 @@ namespace UserRegistrationAPI.Controllers
             }
         }
         [Authorize(Roles = "Administrator")]
-        [HttpDelete("DeleteUser")]
+        [HttpDelete("deleteUser")]
         #region Status.Codes
-        [ProducesResponseType(StatusCodes.Status200OK)]                     // <- these attributes gives more info for dev (in swagger)
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         #endregion
         public async Task<IActionResult> DeleteUser(string id)
         {
             try
             {
-                var user = await _unitOfWork.Users.Get(h => h.Id == id);
+                var user = await _unitOfWork.Users.Get(h => h.Id == id, include: q => q.Include(x => x.DataSheet)
+                                                                                       .ThenInclude(x => x.Address));
                 if (user == null)
                 {
                     _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteUser)}");
                     return BadRequest("Submited data is invalid");
                 }
-                await _unitOfWork.Users.Delete(id.ToString());
+
+                await _unitOfWork.Users.Delete(id);
                 await _unitOfWork.Save();
+
+                await _unitOfWork.Addresses.Delete(id);
 
                 return NoContent();
             }

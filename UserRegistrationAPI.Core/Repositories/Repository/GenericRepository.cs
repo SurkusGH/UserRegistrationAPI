@@ -13,16 +13,13 @@ namespace UserRegistrationAPI.Core.Repositories.Repository
 
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-
-        // Dependency injection - instantiate something at Startup.cs procedure and then reference it whenever needed
-        //                        meaning whatever we loaded up at statup is awailable application wide
         private readonly DatabaseContext _context;
         private readonly DbSet<T> _db;
 
         public GenericRepository(DatabaseContext context)
         {
-            _context = context; // <- ctor for loacal use when called
-            _db = _context.Set<T>(); // <- basically calling Countries or Hotels sets, that are set in DatabaseContext.cs
+            _context = context;
+            _db = _context.Set<T>();
         }
 
         public async Task Delete(string id)
@@ -33,25 +30,35 @@ namespace UserRegistrationAPI.Core.Repositories.Repository
 
         public void DeleteRange(IEnumerable<T> entities)
         {
-            _db.RemoveRange(entities); // <- does not have async version, for some reason
+            _db.RemoveRange(entities);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expression"> Allows for Lambda Query</param>
+        /// <param name="include"> Allows for Secondary Lambda Query</param>
+        /// <returns></returns>
         public async Task<T> Get(Expression<Func<T, bool>> expression,
                                  Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null
                                  )
         {
-            IQueryable<T> query = _db; // <- query of everything in a db *SET* meaning certain table countries/hotels
-            if (include != null) // <- it include property which I indicate it to; but its optional
+            IQueryable<T> query = _db;
+            if (include != null)
             {
                 query = include(query);
             }
 
 
             return await query.AsNoTracking().FirstOrDefaultAsync(expression);
-            //^This does not modify database
-            //^expression here makes generics extra flexible, based on the context
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expression"> Allows for Lambda Query</param>
+        /// <param name="orderBy">Orders result by parameter</param>
+        /// <param name="include"> Allows for Secondary Lambda Query</param>
+        /// <returns></returns>
         public async Task<IList<T>> GetAll(Expression<Func<T, bool>> expression = null,
                                            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
                                            Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null
@@ -77,26 +84,10 @@ namespace UserRegistrationAPI.Core.Repositories.Repository
             return await query.AsNoTracking().ToListAsync();
         }
 
-        //public async Task<IPagedList<T>> GetPagedList(RequestParams requestParams,
-        //                                              List<string> include = null)
-        //{
-        //    IQueryable<T> query = _db;
-
-        //    if (include != null)
-        //    {
-        //        foreach (var includeProperty in include)
-        //        {
-        //            query = query.Include(includeProperty);
-        //        }
-        //    }
-
-        //    return await query.AsNoTracking()
-        //                      .ToPagedListAsync(requestParams.PageNumber, requestParams.PageSize);
-        //}
 
         public async Task Insert(T entity)
         {
-            await _db.AddAsync(entity); // <- whatever came in as data : add it
+            await _db.AddAsync(entity);
         }
 
         public async Task InsertRange(IEnumerable<T> entities)
@@ -106,21 +97,8 @@ namespace UserRegistrationAPI.Core.Repositories.Repository
 
         public void Update(T entity)
         {
-            _db.Attach(entity); // <- starts tracking entity
-            _context.Entry(entity).State = EntityState.Modified; // <- when it detects mod, applyes it
+            _db.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
         }
-
-        //public IIncludableQueryable LoadRelatedDataFor_oneUser(string id)
-        //{
-        //    var user = _context.Users.Include(user => user.DataSheet).ThenInclude(x => x.Address);
-        //    return user;
-
-        //}
-
     }
 }
-
-//db.Courses.Include(x => x.StudentList)
-//                         .Include(x => x.LectureList)
-//                                                     .Select(x => x.Name).ToList()
-//                                                     .ForEach(x => Console.WriteLine($"{index++} - {x}"));

@@ -8,13 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using UserRegistrationAPI.Core.DTOs;
 using UserRegistrationAPI.Core.Helpers;
 using UserRegistrationAPI.Core.Repositories.IRepository;
 using UserRegistrationAPI.Core.Services;
-using UserRegistrationAPI.Data.Configurations.Image;
 using UserRegistrationAPI.Data.Data;
 
 namespace UserRegistrationAPI.Controllers
@@ -45,12 +43,12 @@ namespace UserRegistrationAPI.Controllers
         [HttpPost]
         [Route("register")]
         #region Status.Codes
-        //[ProducesResponseType(StatusCodes.Status202Accepted)]                     // <- these attributes gives more info for dev (in swagger)
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]               
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         #endregion
-        public async Task<IActionResult> Register([FromBody] CreateUserDTO userDto)
+        public async Task<IActionResult> Register([FromBody] CreateUserDTO dto)
         {
-            _logger.LogInformation($"Registration Attempt for {userDto.Email}");
+            _logger.LogInformation($"Registration Attempt for {dto.Email}");
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -58,13 +56,13 @@ namespace UserRegistrationAPI.Controllers
 
             try
             {
-                var user = _mapper.Map<User>(userDto);
+                var user = _mapper.Map<User>(dto);
 
-                user.UserName = userDto.Email;
+                user.UserName = dto.Email;
                 //user.DataSheetId = Guid.Parse(user.ConcurrencyStamp);
 
 
-                var result = await _userManager.CreateAsync(user, userDto.Password);
+                var result = await _userManager.CreateAsync(user, dto.Password);
 
                 if (!result.Succeeded)
                 {
@@ -88,9 +86,13 @@ namespace UserRegistrationAPI.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginUserDTO userDTO)
+        #region Status.Codes
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        #endregion
+        public async Task<IActionResult> Login([FromBody] LoginUserDTO dto)
         {
-            _logger.LogInformation($"Login Attempt for {userDTO.Email}");
+            _logger.LogInformation($"Login Attempt for {dto.Email}");
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -98,7 +100,7 @@ namespace UserRegistrationAPI.Controllers
 
             try
             {
-                if (!await _authManager.ValidateUser(userDTO))
+                if (!await _authManager.ValidateUser(dto))
                 {
                     return Unauthorized();
                 }
@@ -111,9 +113,14 @@ namespace UserRegistrationAPI.Controllers
                 return Problem($"Something Went Wrong in the {nameof(Login)}", statusCode: 500); // <- Different way to do this
             }
         }
+
         [Authorize]
         [HttpPost]
         [Route("FillAllUserData")]
+        #region Status.Codes
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        #endregion
         public async Task<IActionResult> FillAllUserData([FromForm] CreateDataSheetDTO dto, string userId)
         {
             _logger.LogInformation($"Registration Attempt for {dto}");
@@ -126,43 +133,39 @@ namespace UserRegistrationAPI.Controllers
             {
                 var user = await _unitOfWork.Users.Get(q => q.Id == userId, include: x => x.Include(y => y.DataSheet)
                                                                                            .ThenInclude(f => f.Address));
-                //var dataSheet = await _unitOfWork.DataSheets.Get(q => q.Id == user.DataSheetId, include: x => x.Include(y => y.Address));
 
-
-                //user.DataSheet.FirstName = dto.FirstName;
-                //user.DataSheet.LastName = dto.LastName;
-                //user.DataSheet.IdentificationNumber = dto.IdentificationNumber;
-                //user.DataSheetId = dto.Address.
+                if (user.DataSheet != null)
+                {
+                    _logger.LogError($"Invalid UPDATE attempt CAUSE DataSheet Filled, TRY updating by field {nameof(CreateDataSheetDTO)}");
+                    return BadRequest("Invalid UPDATE attempt CAUSE DataSheet Filled, TRY updating by field");
+                }
 
                 user.DataSheet = _mapper.Map<DataSheet>(dto);
                 user.DataSheet.ImageData = ImageDataParser.ImageDataToArray_Helper(dto.ImageUpload);
 
                 user.DataSheet.Address = _mapper.Map<Address>(dto.Address);
-                user.DataSheetId = user.DataSheet.Id;
 
                 await _unitOfWork.DataSheets.Insert(user.DataSheet);
                 await _unitOfWork.Addresses.Insert(user.DataSheet.Address);
 
-                //user.DataSheet = dataSheet;
                 _unitOfWork.Users.Update(user);
 
-                //await _unitOfWork.DataSheets.Insert(dataSheet);
                 await _unitOfWork.Save();
 
                 return Accepted();
+
             }
             catch (Exception ex)
             {
-
-                _logger.LogError(ex, $"Something Went Wrong in the {nameof(Register)}");
-                return Problem($"Something Went Wrong in the {nameof(Register)}", statusCode: 500); // <- Different way to do this
+                _logger.LogError(ex, $"Something Went Wrong in the {nameof(FillAllUserData)}");
+                return Problem($"(!) Internal Server Error. Please Try Again Later. {nameof(FillAllUserData)}", statusCode: 500);
             }
         }
 
         [Authorize]
         [HttpGet("GetUserById")]
         #region Status.Codes
-        [ProducesResponseType(StatusCodes.Status200OK)]                     // <- these attributes gives more info for dev (in swagger)
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         #endregion
         public async Task<IActionResult> GetUserById(string userId)
@@ -179,106 +182,5 @@ namespace UserRegistrationAPI.Controllers
                 return StatusCode(500, "(!) Internal Server Error. Please Try Again Later.");
             }
         }
-
-        //[HttpPost("AddPicture")]
-        //public async Task<IActionResult> AddPicture(string id, [FromForm] ImageUploadRequest imageRequest)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateDataSheetDTO_IdentificationNumber)}");
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    var user = await _unitOfWork.Users.Get(x => x.Id == id, include: y => y.Include(j => j.DataSheet));
-        //    if (user == null)
-        //    {
-        //        _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateDataSheetDTO_IdentificationNumber)}");
-        //        return BadRequest("Submitted data is invalid");
-        //    }
-
-
-        //    using var memoryStream = new MemoryStream();
-        //    imageRequest.Image.CopyTo(memoryStream);
-        //    var imageBytes = memoryStream.ToArray();
-
-        //    var imageBytesSetSize = AdjustImage.ResizeImage(imageBytes);
-
-        //    user.DataSheet.ImageData = imageBytesSetSize;
-
-        //    _unitOfWork.DataSheets.Update(user.DataSheet);
-        //    await _unitOfWork.Save();
-
-        //    return NoContent();
-        //}
-
-
-
-
-
-        //[HttpPost]
-        //[Route("FillDataSheet")]
-        //public async Task<IActionResult> FillDataSheet([FromBody] CreateDataSheetDTO dataSheetDTO, string userId)
-        //{
-        //    _logger.LogInformation($"Registration Attempt for {dataSheetDTO}");
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    try
-        //    {
-        //        var user = await _unitOfWork.Users.Get(q => q.Id == userId, include: x => x.Include(x => x.DataSheet));
-
-        //        var dataSheet = _mapper.Map<DataSheet>(dataSheetDTO);
-
-        //        user.DataSheet = dataSheet;
-        //        _unitOfWork.Users.Update(user);
-
-        //        await _unitOfWork.DataSheets.Insert(dataSheet);
-        //        await _unitOfWork.Save();
-
-        //        return Accepted();
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        _logger.LogError(ex, $"Something Went Wrong in the {nameof(Register)}");
-        //        return Problem($"Something Went Wrong in the {nameof(Register)}", statusCode: 500); // <- Different way to do this
-        //    }
-        //}
-
-        //[HttpPost]
-        //[Route("FillAdress")]
-        //public async Task<IActionResult> FillAdress([FromBody] CreateAddressDTO adressDTO, string userId)
-        //{
-        //    _logger.LogInformation($"Registration Attempt for {adressDTO}");
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    try
-        //    {
-        //        var user = await _unitOfWork.Users.Get(q => q.Id == userId, include: x => x.Include(y => y.DataSheet));
-        //        var dataSheet = await _unitOfWork.DataSheets.Get(q => q.Id == user.DataSheetId, include: x => x.Include(y => y.Address));
-
-        //        var adress = _mapper.Map<Address>(adressDTO);
-
-        //        dataSheet.Address = adress;
-        //        _unitOfWork.DataSheets.Update(dataSheet);
-
-        //        _ = _unitOfWork.Addresses.Insert(dataSheet.Address);
-
-        //        await _unitOfWork.Save();
-
-        //        return Accepted();
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        _logger.LogError(ex, $"Something Went Wrong in the {nameof(Register)}");
-        //        return Problem($"Something Went Wrong in the {nameof(Register)}", statusCode: 500); // <- Different way to do this
-        //    }
-        //}
     }
 }

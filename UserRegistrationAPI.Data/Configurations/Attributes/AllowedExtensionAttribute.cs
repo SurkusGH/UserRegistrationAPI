@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
 
 namespace UserRegistrationAPI.Data.Attributes
 {

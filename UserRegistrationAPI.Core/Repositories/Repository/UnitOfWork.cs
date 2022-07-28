@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using UserRegistrationAPI.Data;
 using UserRegistrationAPI.Core.Repositories.IRepository;
+using UserRegistrationAPI.Data;
 using UserRegistrationAPI.Data.Data;
 
 namespace UserRegistrationAPI.Core.Repositories.Repository

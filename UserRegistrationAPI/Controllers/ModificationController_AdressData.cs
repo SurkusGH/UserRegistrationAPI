@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -27,7 +28,11 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [Authorize]
-        [HttpPut("CityMod")]
+        [HttpPut("cityMod")]
+        #region Status.Codes
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        #endregion
         public async Task<IActionResult> UpdateAddressDTO_City(string id, [FromBody] UpdateAddressDTO_City dto)
         {
             if (!ModelState.IsValid)
@@ -53,7 +58,11 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [Authorize]
-        [HttpPut("StreetMod")]
+        [HttpPut("streetMod")]
+        #region Status.Codes
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        #endregion
         public async Task<IActionResult> UpdateAddressDTO_Street(string id, [FromBody] UpdateAddressDTO_Street dto)
         {
             if (!ModelState.IsValid)
@@ -79,7 +88,11 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [Authorize]
-        [HttpPut("HouseMod")]
+        [HttpPut("houseMod")]
+        #region Status.Codes
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        #endregion
         public async Task<IActionResult> UpdateAddressDTO_House(string id, [FromBody] UpdateAddressDTO_House dto)
         {
             if (!ModelState.IsValid)
@@ -105,7 +118,11 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [Authorize]
-        [HttpPut("ApartamentMod")]
+        [HttpPut("apartamentMod")]
+        #region Status.Codes
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        #endregion
         public async Task<IActionResult> UpdateAddressDTO_Apartament(string id, [FromBody] UpdateAddressDTO_Apartament dto)
         {
             if (!ModelState.IsValid)

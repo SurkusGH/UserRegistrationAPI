@@ -11,7 +11,6 @@ namespace UserRegistrationAPI.Core.Configurations
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<User, CreateUserDTO>().ReverseMap();
             CreateMap<User, UserDTOwithoutId>().ReverseMap();
-
             CreateMap<User, UpdateUserDTO_Username>().ReverseMap();
             CreateMap<User, UpdateUserDTO_Password>().ReverseMap();
             CreateMap<User, LoginUserDTO>().ReverseMap();
@@ -19,8 +18,6 @@ namespace UserRegistrationAPI.Core.Configurations
 
             CreateMap<DataSheet, DataSheetDTO>().ReverseMap();
             CreateMap<DataSheet, DataSheetDTOwithoutID>().ReverseMap();
-
-
             CreateMap<DataSheet, CreateDataSheetDTO>().ReverseMap();
             CreateMap<DataSheet, UpdateDataSheetDTO_FirstName>().ReverseMap();
             CreateMap<DataSheet, UpdateDataSheetDTO_LastName>().ReverseMap();
@@ -32,7 +29,6 @@ namespace UserRegistrationAPI.Core.Configurations
             CreateMap<Address, UpdateAddressDTO_Street>().ReverseMap();
             CreateMap<Address, UpdateAddressDTO_House>().ReverseMap();
             CreateMap<Address, UpdateAddressDTO_Apartament>().ReverseMap();
-
             CreateMap<Address, AddressDTOwithoutId>().ReverseMap();
 
         }

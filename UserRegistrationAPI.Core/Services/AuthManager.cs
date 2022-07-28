@@ -38,8 +38,6 @@ namespace UserRegistrationAPI.Core.Services
         {
             var jwtSettings = _configuration.GetSection("Jwt");
             var key = jwtSettings.GetSection("Key").Value;
-            //var key = "0a380a1d-758e-471e-a026-46633f874936";
-            //var key = Environment.GetEnvironmentVariable("KEY");
             var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);

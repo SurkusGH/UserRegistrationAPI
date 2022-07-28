@@ -26,9 +26,6 @@ namespace UserRegistrationAPI.Core
         {
             var jwtSettings = configuration.GetSection("Jwt");
             var key = jwtSettings.GetSection("Key").Value;
-            // var key = "0a380a1d-758e-471e-a026-46633f874936";
-            // var key = Environment.GetEnvironmentVariable("KEY");
-            // Key is encoded in CommandPrompt:AdminPriv: setx KEY "0a380a1d-758e-471e-a026-46633f874936" /M
 
             services.AddAuthentication(options =>
             {

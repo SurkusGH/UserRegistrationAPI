@@ -26,8 +26,8 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [Authorize]
-        [HttpPut("UsernameMod")]
-        public async Task<IActionResult> UpdateUser_Username(string id, [FromBody] UpdateUserDTO_Username userDTO)
+        [HttpPut("usernameMod")]
+        public async Task<IActionResult> UpdateUser_Username(string id, [FromBody] UpdateUserDTO_Username dto)
         {
             if (!ModelState.IsValid)
             {
@@ -42,7 +42,7 @@ namespace UserRegistrationAPI.Controllers
                 return BadRequest("Submitted data is invalid");
             }
 
-            _mapper.Map(userDTO, user);
+            _mapper.Map(dto, user);
             _unitOfWork.Users.Update(user);
             await _unitOfWork.Save();
 
@@ -50,8 +50,8 @@ namespace UserRegistrationAPI.Controllers
         }
 
         [Authorize]
-        [HttpPut("PasswordMod")]
-        public async Task<IActionResult> UpdateUser_Password(string id, [FromBody] UpdateUserDTO_Password userDTO)
+        [HttpPut("passwordMod")]
+        public async Task<IActionResult> UpdateUser_Password(string id, [FromBody] UpdateUserDTO_Password dto)
         {
             if (!ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace UserRegistrationAPI.Controllers
                 return BadRequest("Submitted data is invalid");
             }
 
-            _mapper.Map(userDTO, user);
+            _mapper.Map(dto, user);
             _unitOfWork.Users.Update(user);
             await _unitOfWork.Save();
 

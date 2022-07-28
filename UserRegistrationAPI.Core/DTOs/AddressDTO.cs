@@ -1,31 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace UserRegistrationAPI.Core.DTOs
 {
     public class AddressDTO : CreateAddressDTO
     {
-        public Guid Id { get; set; }
-    }
-
-    public class UpdateAddressDTO_City
-    {
-        [Required]
-        public string City { get; set; }
-    }
-    public class UpdateAddressDTO_Street
-    {
-        [Required]
-        public string Street { get; set; }
-    }
-    public class UpdateAddressDTO_House
-    {
-        [Required]
-        public int House { get; set; }
-    }
-    public class UpdateAddressDTO_Apartament
-    {
-        public int Apartament { get; set; }
+        public string Id { get; set; }
     }
 
     public class CreateAddressDTO
@@ -52,4 +31,26 @@ namespace UserRegistrationAPI.Core.DTOs
     {
 
     }
+
+    public class UpdateAddressDTO_City
+    {
+        [Required]
+        public string City { get; set; }
+    }
+    public class UpdateAddressDTO_Street
+    {
+        [Required]
+        public string Street { get; set; }
+    }
+    public class UpdateAddressDTO_House
+    {
+        [Required]
+        public int House { get; set; }
+    }
+    public class UpdateAddressDTO_Apartament
+    {
+        public int Apartament { get; set; }
+    }
+
+
 }
