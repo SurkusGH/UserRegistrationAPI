@@ -75,8 +75,6 @@ namespace UserRegistrationAPI.Controllers
                 await _unitOfWork.Users.Delete(id);
                 await _unitOfWork.Save();
 
-                await _unitOfWork.Addresses.Delete(id);
-
                 return NoContent();
             }
             catch (Exception ex)

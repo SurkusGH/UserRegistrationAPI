@@ -136,8 +136,8 @@ namespace UserRegistrationAPI.Controllers
 
                 if (user.DataSheet != null)
                 {
-                    _logger.LogError($"Invalid UPDATE attempt CAUSE DataSheet Filled, TRY updating by field {nameof(CreateDataSheetDTO)}");
-                    return BadRequest("Invalid UPDATE attempt CAUSE DataSheet Filled, TRY updating by field");
+                    _logger.LogError($"Invalid UPDATE attempt CAUSE DataSheet is Filled, TRY updating by field {nameof(CreateDataSheetDTO)}");
+                    return BadRequest("Invalid UPDATE attempt CAUSE DataSheet is Filled, TRY updating by field");
                 }
 
                 user.DataSheet = _mapper.Map<DataSheet>(dto);
