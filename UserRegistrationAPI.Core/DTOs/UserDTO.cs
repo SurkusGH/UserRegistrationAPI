@@ -7,9 +7,15 @@ namespace UserRegistrationAPI.Core.DTOs
     public class UserDTO : CreateUserDTO
     {
         public string Id { get; set; }
+
         public DataSheet DataSheet { get; set; }
 
 
+    }
+
+    public class UserDTOwithoutId : CreateUserDTO
+    {
+        public DataSheetDTOwithoutID DataSheet { get; set; }
     }
 
     public class LoginUserDTO
@@ -52,6 +58,8 @@ namespace UserRegistrationAPI.Core.DTOs
 
         [Required]
         private ICollection<string> Roles { get; set; }
+
+
 
 
     }

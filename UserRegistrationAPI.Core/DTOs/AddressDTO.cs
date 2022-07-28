@@ -31,15 +31,25 @@ namespace UserRegistrationAPI.Core.DTOs
     public class CreateAddressDTO
     {
 
-        [Required]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = false)]
         public string City { get; set; }
 
-        [Required]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = false)]
         public string Street { get; set; }
 
-        [Required]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = false)]
         public int House { get; set; }
 
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = false)]
         public int Apartament { get; set; }
+    }
+
+    public class AddressDTOwithoutId : CreateAddressDTO
+    {
+
     }
 }

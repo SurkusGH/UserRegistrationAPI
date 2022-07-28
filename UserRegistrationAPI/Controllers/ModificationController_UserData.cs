@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -12,11 +13,11 @@ namespace UserRegistrationAPI.Controllers
     public class ModificationController_UserData : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogger<DataLoadingController> _logger;
+        private readonly ILogger<ModificationController_UserData> _logger;
         private readonly IMapper _mapper;
 
         public ModificationController_UserData(IUnitOfWork unitOfWork,
-                                ILogger<DataLoadingController> logger,
+                                ILogger<ModificationController_UserData> logger,
                                 IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -24,7 +25,7 @@ namespace UserRegistrationAPI.Controllers
             _mapper = mapper;
         }
 
-
+        [Authorize]
         [HttpPut("UsernameMod")]
         public async Task<IActionResult> UpdateUser_Username(string id, [FromBody] UpdateUserDTO_Username userDTO)
         {
@@ -48,6 +49,7 @@ namespace UserRegistrationAPI.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("PasswordMod")]
         public async Task<IActionResult> UpdateUser_Password(string id, [FromBody] UpdateUserDTO_Password userDTO)
         {

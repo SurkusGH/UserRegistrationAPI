@@ -3,7 +3,7 @@ using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
 using System.IO;
 
-namespace UserRegistrationAPI
+namespace UserRegistrationAPI.Core.Helpers
 {
     public class AdjustImage
     {

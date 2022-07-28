@@ -60,6 +60,8 @@ namespace UserRegistrationAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserRegistrationAPI", Version = "v1" });
             });
 
+            services.ConfigureSwaggerDoc();
+
             services.AddControllers();
         }
 

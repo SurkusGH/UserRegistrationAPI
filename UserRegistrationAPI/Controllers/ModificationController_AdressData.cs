@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -13,11 +14,11 @@ namespace UserRegistrationAPI.Controllers
     public class ModificationController_AdressData : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogger<DataLoadingController> _logger;
+        private readonly ILogger<ModificationController_AdressData> _logger;
         private readonly IMapper _mapper;
 
         public ModificationController_AdressData(IUnitOfWork unitOfWork,
-                                ILogger<DataLoadingController> logger,
+                                ILogger<ModificationController_AdressData> logger,
                                 IMapper mapper)
         {
             _unitOfWork = unitOfWork;
@@ -25,6 +26,7 @@ namespace UserRegistrationAPI.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpPut("CityMod")]
         public async Task<IActionResult> UpdateAddressDTO_City(string id, [FromBody] UpdateAddressDTO_City dto)
         {
@@ -50,6 +52,7 @@ namespace UserRegistrationAPI.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("StreetMod")]
         public async Task<IActionResult> UpdateAddressDTO_Street(string id, [FromBody] UpdateAddressDTO_Street dto)
         {
@@ -75,6 +78,7 @@ namespace UserRegistrationAPI.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("HouseMod")]
         public async Task<IActionResult> UpdateAddressDTO_House(string id, [FromBody] UpdateAddressDTO_House dto)
         {
@@ -100,6 +104,7 @@ namespace UserRegistrationAPI.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("ApartamentMod")]
         public async Task<IActionResult> UpdateAddressDTO_Apartament(string id, [FromBody] UpdateAddressDTO_Apartament dto)
         {

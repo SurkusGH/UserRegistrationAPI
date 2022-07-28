@@ -17,11 +17,11 @@ namespace UserRegistrationAPI.Controllers
     public class AdministratorPriviledgedController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogger<DataLoadingController> _logger;
+        private readonly ILogger<AdministratorPriviledgedController> _logger;
         private readonly IMapper _mapper;
 
         public AdministratorPriviledgedController(IUnitOfWork unitOfWork,
-                           ILogger<DataLoadingController> logger,
+                           ILogger<AdministratorPriviledgedController> logger,
                            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
