@@ -10,8 +10,8 @@ using UserRegistrationAPI.Data;
 namespace UserRegistrationAPI.Data.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220728144203_Initial")]
-    partial class Initial
+    [Migration("20220729121503_Tables")]
+    partial class Tables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,15 +50,15 @@ namespace UserRegistrationAPI.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c9fce7a0-34c3-454b-8ae2-51e0d2bfd045",
-                            ConcurrencyStamp = "dd2c666f-14a0-4703-ad12-04e4ead87716",
+                            Id = "5b0f2bce-3e2d-4e26-b193-efc821882c41",
+                            ConcurrencyStamp = "d7c22142-7146-4983-9223-8256368257d8",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "3818f529-3d25-4f0a-bafa-f9d84b04a161",
-                            ConcurrencyStamp = "8c4b4165-d7c9-498d-8efa-cc549f56498e",
+                            Id = "5544c55b-2836-4280-b466-608083c7b141",
+                            ConcurrencyStamp = "14139b1e-c9c8-43d5-bb60-d5cf4a696bd7",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
